@@ -1,0 +1,22 @@
+{
+  "name": "fitness-friend",
+  "version": "1.0.0",
+  "description": "fitness-friend # Features * Registering   * users can create a profile on the website so all their info can be stored.   * screens needed: Signup",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salazarm273/fitness-friend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salazarm273/fitness-friend/issues"
+  },
+  "homepage": "https://github.com/salazarm273/fitness-friend#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
