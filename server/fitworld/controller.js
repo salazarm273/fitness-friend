@@ -196,6 +196,73 @@ app.post("/weightBetween", (req, res) =>{
     res.send(fitworld.users[req.body.userId].getWeightsBetween(req.body.weight1,req.body.weight2));
 });
 
+//logs a food that is not in the food array already
+app.post("/logFood", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].logFood(req.body.name, req.body.servings, req.body.calories, req.body.date, req.body.add));
+});
+
+//logs a food from the food array by index
+app.post("/logFoodIndex", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].logFoodSystemIndex(req.body.index, req.body.servings, req.body.date));
+});
+
+//logs a food from the food array by name
+app.post("/logFoodName", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].logFoodName(req.body.name, req.body.servings, req.body.date));
+});
+
+//deletes most recent food log
+app.post("/deleteFood", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].deleteFood());
+});
+
+//shows full food diary and all calories consumed
+app.post("/foodDiary", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodAll());
+});
+
+//shows food diary for day
+app.post("/foodDiaryDay", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodDay());
+});
+
+//shows food diary for week
+app.post("/foodDiaryWeek", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodWeek());
+});
+
+//shows food diary for month
+app.post("/foodDiaryMonth", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodMonth());
+});
+
+//shows food diary for year
+app.post("/foodDiaryYear", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodYear());
+});
+
+//shows food diary for date range
+app.post("/foodDiaryRange", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodRange(req.body.date1,req.body.date2));
+});
+
+//shows all logs for a food by name
+app.post("/foodDiaryName", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodName(req.body.name));
+});
+
+//shows all food logs between certain amounts of calories, lower amount first
+app.post("/foodDiaryBetween", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFoodBetween(req.body.cal1,req.body.cal2));
+});
+
+
+
+
+
+
+
+
 
 
 

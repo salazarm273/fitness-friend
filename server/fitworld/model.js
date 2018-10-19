@@ -1,5 +1,5 @@
 const activities = require('./activities')
-//gonna need a thing for foods
+const foods = require("./foods")
 
 class fitWorld{
     constructor(){
@@ -444,7 +444,7 @@ class User{
         if(this.weightLog.length == 1){
             this.weight = () => -1;
         }else{
-            this.weight = () => this.weightLog[this.weightLog.length -1].weight;
+            this.weight = () => this.weightLog[this.weightLog.length - 1].weight;
         }
         return this.weightLog.splice(this.weightLog.length -1,1);
 
@@ -544,9 +544,179 @@ class User{
         return {weights: temp, progress: progress};  
     }
 
+    //logs a food that is not in the food array already
+    logFood(name, servings, caloriesPerServing, date, add){
+        if(date==undefined){
+            date= new Date();
+        }else{
+            date= new Date(date);
+        }
+        let newFood = {name: name, calories: servings*caloriesPerServing, date: date};
+        this.foodLog.push(newFood);
 
+        //item will be added to the food array unless add is set to false
+        if(add != false){
+            foods.push({name: name, calories: caloriesPerServing});
+        }
+        this.dateSort(this.foodLog);
+        return newFood;
+    }
 
+    //logs a food from the food array by index
+    logFoodSystemIndex(index, servings, date){
+        if(date==undefined){
+            date= new Date();
+        }else{
+            date= new Date(date);
+        }
+        let newFood= {name: foods[index].name, calories: foods[index].calories * servings, date: date};
+        this.foodLog.push(newFood);
+        this.dateSort(this.foodLog);
+        return newFood;
+    }
 
+    //logs a food from the food array by name
+    logFoodName(name, servings, date){
+        if(date==undefined){
+            date= new Date();
+        }else{
+            date= new Date(date);
+        }
+        let index= -1;
+        for(var i=0; i< foods.length; i++){
+            if(foods[i].name==name){
+                index=i;
+                break;
+            }
+        }
+        if(index< 0) { throw new Error("No food found with such name")}
+        let newFood= {name: foods[index].name, calories: foods[index].calories * servings, date: date};
+        this.foodLog.push(newFood);
+        this.dateSort(this.foodLog);
+        return newFood;
+    }
+
+    //deletes most recent food log
+    deleteFood(){
+        if(this.foodLog.length == 0){
+            return {};
+        }
+        return this.foodLog.splice(0,1);
+
+    }
+
+    //shows full food diary and all calories consumed
+    getFoodAll(){
+        let total = 0;
+            for(var i = 0; i< this.foodLog.length; i++){
+                total += this.foodLog[i].calories;
+            }
+        return {foods: this.foodLog, "calories eaten": total};
+    }
+
+    //shows food diary for day
+    getFoodDay(){
+        let temp = [];
+        let total = 0;
+        let today= new Date();
+        for(var i = 0; i< this.foodLog.length; i++){
+            let then = this.foodLog[i].date;
+            if(then.getFullYear() == today.getFullYear() && then.getMonth() == today.getMonth() && 
+            then.getDate() == today.getDate()){
+                temp.push(this.foodLog[i]);
+                total += this.foodLog[i].calories;
+            }
+        }
+        return {foods: temp, "calories eaten": total};
+    }
+
+    //shows food diary for week
+    getFoodWeek(){
+        let temp = [];
+        let total = 0;
+        let today= new Date();
+        let lastWeek=new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+        for(var i = 0; i< this.foodLog.length; i++){
+            if(this.foodLog[i].date >= lastWeek && this.foodLog[i].date <= today){
+                temp.push(this.foodLog[i]);
+                total += this.foodLog[i].calories;
+            }
+        }
+        return {foods: temp, "calories eaten": total};
+    }
+
+    //shows food diary for month
+    getFoodMonth(){
+        let temp = [];
+        let total = 0;
+        let today= new Date();
+        for(var i = 0; i< this.foodLog.length; i++){
+            let then = this.foodLog[i].date;
+            if(then.getFullYear() == today.getFullYear() && then.getMonth() == today.getMonth()){
+                temp.push(this.foodLog[i]);
+                total += this.foodLog[i].calories;
+            }
+        }
+        return {foods: temp, "calories eaten": total};
+    }
+
+    //shows food diary for year
+    getFoodYear(){
+        let temp = [];
+        let total = 0;
+        let today= new Date();
+        for(var i = 0; i< this.foodLog.length; i++){
+            let then = this.foodLog[i].date;
+            if(then.getFullYear() == today.getFullYear()){
+                temp.push(this.foodLog[i]);
+                total += this.foodLog[i].calories;
+            }
+        }
+        return {foods: temp, "calories eaten": total};
+    }
+
+    //shows food diary for date range
+    getFoodRange(date1,date2){
+        let temp = [];
+        let total = 0;
+        let start= new Date(date1);
+        let end=new Date(date2);
+        for(var i = 0; i< this.foodLog.length; i++){
+            if(this.foodLog[i].date >= start && this.foodLog[i].date <= end){
+                temp.push(this.foodLog[i]);
+                total += this.foodLog[i].calories;
+            }
+        }
+        return {foods: temp, "calories eaten": total};
+    }
+
+    //shows all logs for a food by name
+    getFoodName(name){
+        let temp = [];
+        let total = 0;
+        for(var i = 0; i< this.foodLog.length; i++){
+            if(this.foodLog[i].name == name){
+                temp.push(this.foodLog[i]);
+                total += this.foodLog[i].calories;
+            }
+        }
+        return {foods: temp, "calories eaten": total};
+    }
+    
+
+    //shows all food logs between certain amounts of calories, lower amount first
+    getFoodBetween(cal1,cal2){
+        let temp = [];
+        let total = 0;
+        for(var i = 0; i< this.foodLog.length; i++){
+            if(this.foodLog[i].calories >= cal1 && this.foodLog[i].calories <= cal2){
+                temp.push(this.foodLog[i]);
+                total += this.foodLog[i].calories;
+            }
+        }
+        return {foods: temp, "calories eaten": total};
+    }
+    
 
     
 
@@ -558,33 +728,32 @@ class User{
 
 
 
-    /*    
-    logFoodNotInSystem({name, servings, calories, date}){
-        this.foodLog = this.foodLog + {name, calories, date};
-        //add it to the foods thing
+
+
+
+
+
+
+
+
+
+
+
+
+    //sorts elements by date
+    dateSort(array){
+        for(var i=0;i<array.length-1;i++){
+            let latest=i;
+            for(var j=i+1;j<array.length;j++){
+                if(array[j].date > array[latest].date){
+                    let temp=array[latest];
+                    array[latest]=array[j];
+                    array[j]=temp;
+                }
+            }
+        }
+        return array;
     }
-
-    logFoodFromSystem({food, servings, date}){
-        this.foodLog = this.foodLog + {food.name, food.calories * servings, date};
-
-    }
-    */
-
-    //friends status'
-
-    //friends latest activities
-
-    //set status
-
-    //add weight
-
-    //getDatesActivities
-
-    //getDatesFood
-
-    //hide friend's posts
-
-    //hide from friend
 
 }
 
