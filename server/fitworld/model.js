@@ -4,10 +4,15 @@ const foods = require("./foods")
 class fitWorld{
     constructor(){
         this.users =[];
+        this.challenges = [];
     }
+    
+    //shows all users
     getAllUsers(){
         return this.users;
     }
+
+    //shows all users with name
     getUsersByNames(name){
         let temp= [];
         for(var i = 0; i < this.users.length; i++)
@@ -17,6 +22,11 @@ class fitWorld{
             }
         }
         return temp;
+    }
+
+    //shows all challenges
+    getAllChallenge(){
+        return this.challenges;
     }
 
     //sends friend request from user1 to user2
@@ -137,6 +147,51 @@ class fitWorld{
         return temp;
     }
 
+
+    //checks for winners to a challenge
+    checkWinners(chalId){
+        let contest = this.challenges[chalId];
+        for(var i = 0; i<contest.contestants.length; i++){
+            let player = this.users[contest.contestants[i].id];
+            if(this.won(player,contest))
+            {
+                player.challengesWon.push({contest: contest.title});
+                contest.winners.push(player)
+            }else{
+                if(contest.end < new Date()){
+                    contest.contestants.splice(i,1);
+                    i--;
+                }
+            }
+        }   
+        return contest.winners;
+    }
+
+    //checks if a specifc user has met the criteria to win
+    won(player, contest){
+        let count = 0;
+        for(var i=0; i< player.activitiesLog.length; i++){
+            if(player.activitiesLog[i].name == contest.activity)
+                if(player.activitiesLog[i].date >= contest.start && 
+                    player.activitiesLog[i].date <= contest.end){
+                        count++;
+                }
+            }
+        if(count >= contest.frequency){
+            return true;
+        }
+        return false;
+    }
+
+    //add user to a challenge
+    joinChallenge(userId, chalId){
+        let contest = this.challenges[chalId];
+        let contestant = {name: this.users[userId].name, id: userId};
+        contest.contestants.push(contestant);
+        return contest.contestants;
+    }
+    //create example
+
     //sorts elements by date
     dateSort(array){
         for(var i=0;i<array.length-1;i++){
@@ -181,6 +236,7 @@ class User{
         this.friendsDontSee = [];
         this.friendsDontShow = [];
         this.status= "";
+        this.challengesWon = [];
     }
 
     setGoalWeight(weight){
@@ -729,7 +785,6 @@ class User{
     //changes goal calories
     setGoalC(newGoal){
         this.gCals = () => newGoal;
-        console.log(this.gCals());
         return this.gCals();
     }
 
@@ -786,25 +841,6 @@ class User{
             remaining: calRemaining};
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //sorts elements by date
     dateSort(array){
         for(var i=0;i<array.length-1;i++){
@@ -822,6 +858,23 @@ class User{
 
 }
 
+//a challege users could join. Fow now, the challenges are formatted so that a user must perform 
+//an activity of a certain name a certain number of times within the timeframe and log it to win.
+class Challenge{
+    constructor(tittle, id, descrip, start, end, activity, frequency){
+        this.tittle= tittle;
+        this.id = id;
+        this.description = descrip;
+        this.start = new Date(start);
+        this.end = new Date(end);
+        this.contestants = [];
+        this.winners = [];
+        this.activity = activity;
+        this.frequency = frequency;
+    }
+
+}
+
 module.exports = {
-    fitWorld, User
+    fitWorld, User, Challenge
 }

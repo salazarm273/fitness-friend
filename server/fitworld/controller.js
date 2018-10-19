@@ -1,5 +1,5 @@
 const express = require('express');
-const {fitWorld, User} = require ('./model');
+const {fitWorld, User, Challenge} = require ('./model');
 
 
 const fitworld= new fitWorld();
@@ -291,6 +291,30 @@ app.post("/caloriesYear", (req, res) =>{
 app.post("/caloriesRange", (req, res) =>{
     res.send(fitworld.users[req.body.userId].getReportRange(req.body.date1,
         req.body.date2, req.body.days));
+});
+
+//adds challenge
+app.post("/addChallenge", (req, res) => {
+    const challenge = new Challenge(req.body.name, fitworld.challenges.length, 
+        req.body.descrip, req.body.start, req.body.end, req.body.activity,
+        req.body.frequency);
+    fitworld.challenges.push(challenge);
+        res.send(challenge);
+});
+
+//shows all challenges
+app.post("/challenges", (req, res) => {
+    res.send(fitworld.challenges);
+});
+
+//checks for challenge winners
+app.post("/challengeDone", (req, res) => {
+    res.send(fitworld.checkWinners(req.body.id));
+});
+
+//adds a user to a challenge
+app.post("/challengeJoin", (req, res) => {
+    res.send(fitworld.joinChallenge(req.body.userId, req.body.chalId));
 });
 
 module.exports = app;
