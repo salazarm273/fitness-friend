@@ -116,9 +116,19 @@ app.post("/hideFromFriend", (req, res) =>{
     res.send(fitworld.hideFromUser(req.body.user1,req.body.user2));
 });
 
+//Unhides user's statuses from showing to friend
+app.post("/unhideFromFriend", (req, res) =>{
+    res.send(fitworld.unhideFromUser(req.body.user1,req.body.user2));
+});
+
 //Hides statuses from a friend that a user doesnt want to see
 app.post("/dontSeeFriend", (req, res) =>{
     res.send(fitworld.dontShowUser(req.body.user1,req.body.user2));
+});
+
+//Unhides statuses from a friend that a user doesnt want to see
+app.post("/undontSeeFriend", (req, res) =>{
+    res.send(fitworld.undontShowUser(req.body.user1,req.body.user2));
 });
 
 //Unfriends user

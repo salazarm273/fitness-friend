@@ -47,10 +47,36 @@ class fitWorld{
         return true;
     }
 
-    //hides user1 from seeing user2's status. at the request of user1
+    //unhides user1's statuses from user2, at the request of user1
+    unhideFromUser(user1,user2){
+        let changed=false;
+        for(var i=0;i<this.users[user1].friendsDontShow.length;i++){
+            if(this.users[user1].friendsDontShow[i].id == user2){
+                this.users[user1].friendsDontShow.splice(i,1);
+                changed=true;
+                break;
+            }
+        }
+        return changed;
+    }
+
+    //stops user1 from seeing user2's status. at the request of user1
     dontShowUser(user1,user2){
         this.users[user1].friendsDontSee.push({name: this.users[user2].name, id: user2});
         return true;
+    }
+
+    //unstops user1 from seeing user2's status. at the request of user1
+    undontShowUser(user1,user2){
+        let changed=false;
+        for(var i=0;i<this.users[user1].friendsDontSee.length;i++){
+            if(this.users[user1].friendsDontSee[i].id == user2){
+                this.users[user1].friendsDontSee.splice(i,1);
+                changed=true;
+                break;
+            }
+        }
+        return changed;
     }
 
     //unfriends users
@@ -95,12 +121,37 @@ class fitWorld{
                 }
             }
 
+            //don't include status if friend hasn't set any status yet
+            if(friend.status == ""){
+                hidden=true;
+            }
+
             if(!hidden){
                 temp.push(friend.status);
             }
         }
+        if(temp.length >= 2){
+            this.temp= this.dateSort(temp);
+        }
+        
         return temp;
     }
+
+    //sorts elements by date
+    dateSort(array){
+        for(var i=0;i<array.length-1;i++){
+            let latest=i;
+            for(var j=i+1;j<array.length;j++){
+                if(array[j].date > array[latest].date){
+                    let temp=array[latest];
+                    array[latest]=array[j];
+                    array[j]=temp;
+                }
+            }
+        }
+        return array;
+    }
+
 }
 
 class User{
@@ -147,7 +198,8 @@ class User{
             }
         }
         if(set){
-            this.status= this.name +" just accomplished "+ activities[activity].name +" for "+ duration + " hours!";
+            this.status= {status: this.name +" just accomplished "+ activities[activity].name +" for "
+            + duration + " hours!", date: new Date(date)};
         }
         return this.activitiesLog[this.activitiesLog.length - 1];
     }
@@ -175,7 +227,8 @@ class User{
             }
         }
         if(set){
-            this.status= this.name + " just accomplished " + activities[index].name + " for " +duration + " hours!";
+            this.status= {status: this.name + " just accomplished " + activities[index].name + " for " 
+            + duration + " hours!", date: new Date(date)};
         }
         return this.activitiesLog[this.activitiesLog.length - 1];
     }
@@ -327,7 +380,7 @@ class User{
 
     //Sets status
     setStatus(newStatus){
-        this.status= this.name +" says: "+newStatus;
+        this.status= {status: this.name +" says: "+newStatus, date: new Date()};
         return this.status;
     }
 
