@@ -18,6 +18,89 @@ class fitWorld{
         }
         return temp;
     }
+
+    //sends friend request from user1 to user2
+    addFriends(user1,user2){
+        this.users[user2].friendRequests.push({name: this.users[user1].name, id: this.users[user1].id, bio: this.users[user1].bio });
+        return true;
+    }
+
+    //Approves Friend Request
+    approveFriend(user1,user2){
+        let changed= false;
+        let friend1=this.users[user1];
+        for(var i = 0; i< friend1.friendRequests.length; i++){
+            if(friend1.friendRequests[i].id == user2){
+                friend1.friends.push({name: friend1.friendRequests[i].name, id:friend1.friendRequests[i].id, bio: friend1.friendRequests[i].bio});
+                friend1.friendRequests.splice(i,1);
+                changed=true;
+            }
+        }
+
+        this.users[user2].friends.push({name: friend1.name, id: friend1.id, bio: friend1.bio});
+        return changed;
+    }
+
+    //hides user1's statuses from user2, at the request of user1
+    hideFromUser(user1,user2){
+        this.users[user1].friendsDontShow.push({name: this.users[user2].name, id: user2});
+        return true;
+    }
+
+    //hides user1 from seeing user2's status. at the request of user1
+    dontShowUser(user1,user2){
+        this.users[user1].friendsDontSee.push({name: this.users[user2].name, id: user2});
+        return true;
+    }
+
+    //unfriends users
+    unfriend(user1,user2){
+        let k= false;
+        let j=false;
+        for(var i=0; i < this.users[user1].friends.length; i++){
+            if(this.users[user1].friends[i].id == user2){
+                this.users[user1].friends.splice(i,1);
+                k=true;
+            }
+        }
+        for(var i=0; i < this.users[user2].friends.length; i++){
+            if(this.users[user2].friends[i].id == user1){
+                this.users[user2].friends.splice(i,1);
+                j=true;
+            }
+        }
+        return (k && j);
+    }
+
+    //shows a user all of their friends' status
+    //(unless they dont want to see that friend or that friend doesn't want to show them)
+    friendFeed(userId){
+        let temp= [];
+        let viewer = this.users[userId];
+        for(var i=0; i<viewer.friends.length;i++){
+            let friend=this.users[viewer.friends[i].id];
+            let hidden=false;
+            //checks if the user wants to see this friend's posts
+            for(var j=0; j<viewer.friendsDontSee.length;j++){
+                if(viewer.friendsDontSee[j].id==friend.id){
+                    hidden=true;
+                    break;
+                }
+            }
+            //checks if the friend wants to be seen by this user
+            for(var k=0; k<friend.friendsDontShow.length; k++){
+                if(friend.friendsDontShow[k].id==viewer.id){
+                    hidden=true;
+                    break;
+                }
+            }
+
+            if(!hidden){
+                temp.push(friend.status);
+            }
+        }
+        return temp;
+    }
 }
 
 class User{
@@ -37,8 +120,10 @@ class User{
         this.activitiesLog = [];
         this.foodLog = [];
         this.weightLog = [{weight: weight, date: new Date()}]; //make hidden?
-        this.friendsISee = [];
-        this.friendsSeeMe = [];
+        this.friends = [];
+        this.friendRequests = [];
+        this.friendsDontSee = [];
+        this.friendsDontShow = [];
         this.status= "";
     }
 
@@ -62,7 +147,7 @@ class User{
             }
         }
         if(set){
-            this.status= "${this.name} just accomplished ${activities[activity].name} for ${duration} hours!";
+            this.status= this.name +" just accomplished "+ activities[activity].name +" for "+ duration + " hours!";
         }
         return this.activitiesLog[this.activitiesLog.length - 1];
     }
@@ -90,7 +175,7 @@ class User{
             }
         }
         if(set){
-            this.status= "${this.name} just accomplished ${activities[index].name} for ${duration} hours!";
+            this.status= this.name + " just accomplished " + activities[index].name + " for " +duration + " hours!";
         }
         return this.activitiesLog[this.activitiesLog.length - 1];
     }
@@ -215,6 +300,50 @@ class User{
         }
         return {activities: temp, caloresBurned: calBurned};
     }
+
+
+    //Views Friend Requests
+    getFriendRequests(){
+        return this.friendRequests;
+    }
+
+    //Deletes Friend Requests
+    rejectFriend(id){
+        let changed= false;
+        for(var i = 0; i<this.friendRequests.length; i++){
+            let x= this.friendRequests[i];
+            if(x.id == id){
+                this.friendRequests.splice(i,1);
+                changed=true;
+            }
+        }
+        return changed;
+    }
+
+    //Shows Friends
+    getFriends(){
+        return this.friends;
+    }
+
+    //Sets status
+    setStatus(newStatus){
+        this.status= this.name +" says: "+newStatus;
+        return this.status;
+    }
+
+    //Gets status
+    getStatus(){
+        return this.status;
+    }
+
+
+
+
+
+
+
+
+
 
     /*    
     logFoodNotInSystem({name, servings, calories, date}){

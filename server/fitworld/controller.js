@@ -89,12 +89,69 @@ app.post("/activitiesDuration", (req, res) => {
 //Shows all activities
 app.post("/allActivities", (req, res) => {
     res.send(fitworld.users[req.body.userId].activitiesLog);
-})
+});
+
+//Sends Friend Request
+app.post("/addFriends", (req, res) =>{
+    res.send(fitworld.addFriends(req.body.user1,req.body.user2));
+});
+
+//Views Friend Requests
+app.post("/friendRequests", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFriendRequests());
+});
+
+//Approves Friend Request
+app.post("/approveFriend", (req, res) =>{
+    res.send(fitworld.approveFriend(req.body.user1,req.body.user2));
+});
+
+//Deletes Friend Requests
+app.post("/rejectFriend", (req, res) =>{
+    res.send(fitworld.users[req.body.user1].rejectFriend(req.body.user2));
+});
+
+//Hides user's statuses from showing to friend
+app.post("/hideFromFriend", (req, res) =>{
+    res.send(fitworld.hideFromUser(req.body.user1,req.body.user2));
+});
+
+//Hides statuses from a friend that a user doesnt want to see
+app.post("/dontSeeFriend", (req, res) =>{
+    res.send(fitworld.dontShowUser(req.body.user1,req.body.user2));
+});
+
+//Unfriends user
+app.post("/unfriend", (req, res) =>{
+    res.send(fitworld.unfriend(req.body.user1,req.body.user2));
+});
+
+//Shows Friends
+app.post("/seeFriends", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getFriends());
+});
+
+//Shows Friends status'
+app.post("/friendFeed", (req, res) =>{
+    res.send(fitworld.friendFeed(req.body.userId));
+});
+
+//Sets Status
+app.post("/newStatus", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].setStatus(req.body.status));
+});
+
+//Get user's own status
+app.post("/myStatus", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getStatus());
+});
 
 
-app.get("/friends/:id", function(req, res){
-    res.send(fitworld.users[req.params.id].friends());
-})
+
+
+
+
+
 
 app.post('/addWeight', (req, res) => {
     var userId = req.header("userId");
