@@ -14,7 +14,7 @@ app.get("/", function(req, res){
 //adds user
 app.post("/addUser", (req, res) => {
         const user = new User(req.body.name, fitworld.users.length, req.body.pass, req.body.email, req.body.bio, req.body.weight,
-            req.body.wUnits, req.body.height, req.body.hUnits, req.body.goalCalories, req.body.goalWeight);
+            req.body.wUnits, req.body.height, req.body.hUnits, req.body.gender, req.body.age, req.body.goalCalories, req.body.goalWeight);
         fitworld.users.push(user);
     res.send(user);
 });
@@ -257,13 +257,40 @@ app.post("/foodDiaryBetween", (req, res) =>{
 });
 
 
+//changes goal weight
+app.post("/newGoalWeight", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].setGoalW(req.body.goal));
+});
 
+//changes goal calories
+app.post("/newGoalCal", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].setGoalC(req.body.goal));
+});
 
+ //Shows aggregate calorie status for the day
+ app.post("/caloriesDay", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getReportDay());
+});
 
+//Shows aggregate calorie status for the week
+app.post("/caloriesWeek", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getReportWeek());
+});
 
+//Shows aggregate calorie status for the month
+app.post("/caloriesMonth", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getReportMonth());
+});
 
+//Shows aggregate calorie status for the year
+app.post("/caloriesYear", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getReportYear());
+});
 
-
-
+//Shows aggregate calorie status for a date range
+app.post("/caloriesRange", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getReportRange(req.body.date1,
+        req.body.date2, req.body.days));
+});
 
 module.exports = app;

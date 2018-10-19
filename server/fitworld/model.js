@@ -155,7 +155,7 @@ class fitWorld{
 }
 
 class User{
-    constructor(name, id, pass, email, bio, weight, wUnits, height, hUnits, goalCalories, goalWeight){
+    constructor(name, id, pass, email, bio, weight, wUnits, height, hUnits, gender, age, goalCalories, goalWeight){
         this.name = name;
         this.id = id;
         this.pass = () => pass;
@@ -165,6 +165,8 @@ class User{
         this.wUnits = wUnits;
         this.height = () => height;
         this.hUnits = hUnits;
+        this.gender = gender;
+        this.age = age;
         this.gCals = () => goalCalories;
         this.gWeight = () => goalWeight;
         this.activitiesLog = [];
@@ -248,7 +250,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};  
+        return {activities: temp, caloriesBurned: calBurned};  
     }
 
     //Returns activities between two dates, first date must be earlier, inclusive
@@ -263,7 +265,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};
+        return {activities: temp, caloriesBurned: calBurned};
     }
 
     //Shows Day's activities
@@ -279,7 +281,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};
+        return {activities: temp, caloriesBurned: calBurned};
     }
 
     //Shows Month's activities
@@ -294,7 +296,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};
+        return {activities: temp, caloriesBurned: calBurned};
     }
 
     //Shows Year's activities
@@ -309,7 +311,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};
+        return {activities: temp, caloriesBurned: calBurned};
     }
 
     //Shows specific actiivity info
@@ -327,7 +329,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};
+        return {activities: temp, caloriesBurned: calBurned};
     }
 
 
@@ -341,7 +343,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};
+        return {activities: temp, caloriesBurned: calBurned};
     }
 
     //Shows list of all activities above a certain duration
@@ -354,7 +356,7 @@ class User{
                 calBurned += this.activitiesLog[i].calories;
             }
         }
-        return {activities: temp, caloresBurned: calBurned};
+        return {activities: temp, caloriesBurned: calBurned};
     }
 
 
@@ -611,7 +613,7 @@ class User{
             for(var i = 0; i< this.foodLog.length; i++){
                 total += this.foodLog[i].calories;
             }
-        return {foods: this.foodLog, "calories eaten": total};
+        return {foods: this.foodLog, calories: total};
     }
 
     //shows food diary for day
@@ -627,7 +629,7 @@ class User{
                 total += this.foodLog[i].calories;
             }
         }
-        return {foods: temp, "calories eaten": total};
+        return {foods: temp, calories: total};
     }
 
     //shows food diary for week
@@ -642,7 +644,7 @@ class User{
                 total += this.foodLog[i].calories;
             }
         }
-        return {foods: temp, "calories eaten": total};
+        return {foods: temp, calories: total};
     }
 
     //shows food diary for month
@@ -657,7 +659,7 @@ class User{
                 total += this.foodLog[i].calories;
             }
         }
-        return {foods: temp, "calories eaten": total};
+        return {foods: temp, calories: total};
     }
 
     //shows food diary for year
@@ -672,7 +674,7 @@ class User{
                 total += this.foodLog[i].calories;
             }
         }
-        return {foods: temp, "calories eaten": total};
+        return {foods: temp, calories: total};
     }
 
     //shows food diary for date range
@@ -687,7 +689,7 @@ class User{
                 total += this.foodLog[i].calories;
             }
         }
-        return {foods: temp, "calories eaten": total};
+        return {foods: temp, calories: total};
     }
 
     //shows all logs for a food by name
@@ -700,7 +702,7 @@ class User{
                 total += this.foodLog[i].calories;
             }
         }
-        return {foods: temp, "calories eaten": total};
+        return {foods: temp, calories: total};
     }
     
 
@@ -714,12 +716,75 @@ class User{
                 total += this.foodLog[i].calories;
             }
         }
-        return {foods: temp, "calories eaten": total};
+        return {foods: temp, calories: total};
+    }
+
+    //changes goal weight
+    setGoalW(newGoal){
+        this.gWeight = () => newGoal;
+        return this.gWeight();
+    }
+
+
+    //changes goal calories
+    setGoalC(newGoal){
+        this.gCals = () => newGoal;
+        console.log(this.gCals());
+        return this.gCals();
+    }
+
+    //Shows aggregate calorie status for the day
+    getReportDay(){
+        let goal = this.gCals();
+        let eaten = this.getFoodDay().calories;
+        let burned = this.getActivitiesDay().caloriesBurned;
+        let calRemaining = goal - eaten + burned;
+        return {eaten: eaten, burned: burned, goal: goal, 
+            remaining: calRemaining};
     }
     
+    //Shows aggregate calorie status for the week
+    getReportWeek(){
+        let goal = this.gCals() * 7;
+        let eaten = this.getFoodWeek().calories;
+        let burned = this.getActivitiesWeek().caloriesBurned;
+        let calRemaining = goal - eaten + burned;
+        return {eaten: eaten, burned: burned, goal: goal, 
+            remaining: calRemaining};
+    }
 
-    
 
+    //Shows aggregate calorie status for the month
+    getReportMonth(){
+        let goal = this.gCals() * 30;
+        let eaten = this.getFoodMonth().calories;
+        let burned = this.getActivitiesMonth().caloriesBurned;
+        let calRemaining = goal - eaten + burned;
+        return {eaten: eaten, burned: burned, goal: goal, 
+            remaining: calRemaining};
+    }
+
+
+
+    //Shows aggregate calorie status for the year
+    getReportYear(){
+        let goal = this.gCals() * 365;
+        let eaten = this.getFoodYear().calories;
+        let burned = this.getActivitiesYear().caloriesBurned;
+        let calRemaining = goal - eaten + burned;
+        return {eaten: eaten, burned: burned, goal: goal, 
+            remaining: calRemaining};
+    }
+
+    //Shows aggregate calorie status for a date range
+    getReportRange(date1,date2,days){
+        let goal = this.gCals() * days;
+        let eaten = this.getFoodRange(date1,date2).calories;
+        let burned = this.getActivitiesRange(date1,date2).caloriesBurned;
+        let calRemaining = goal - eaten + burned;
+        return {eaten: eaten, burned: burned, goal: goal, 
+            remaining: calRemaining};
+    }
 
 
 
