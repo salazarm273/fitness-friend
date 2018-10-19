@@ -161,7 +161,6 @@ class User{
         this.pass = () => pass;
         this.email = email;
         this.bio = bio;
-        //how to keep private but still access?
         this.weight = () => weight; //going to be set to -1 if the user doesn't put it in form
         this.wUnits = wUnits;
         this.height = () => height;
@@ -170,7 +169,11 @@ class User{
         this.gWeight = () => goalWeight;
         this.activitiesLog = [];
         this.foodLog = [];
-        this.weightLog = [{weight: weight, date: new Date()}]; //make hidden?
+        if(weight<=0){
+            this.weightLog = [];
+        }else{
+            this.weightLog = [{weight: weight, date: new Date()}];
+        }
         this.friends = [];
         this.friendRequests = [];
         this.friendsDontSee = [];
@@ -255,7 +258,7 @@ class User{
         let end = new Date(date2);
         let calBurned = 0;
         for(var i=0; i< this.activitiesLog.length; i++){
-            if(this.activitiesLog[i].date >= start && this.activitiesLog[i].date <=date2){
+            if(this.activitiesLog[i].date >= start && this.activitiesLog[i].date <=end){
                 temp.push(this.activitiesLog[i]);
                 calBurned += this.activitiesLog[i].calories;
             }
@@ -389,6 +392,163 @@ class User{
         return this.status;
     }
 
+    //logs weight
+    logWeight(newWeight, time){
+        let date= new Date();
+        if(time != undefined){
+            date= new Date(time);
+        }
+        if(newWeight < 0) { throw new Error("Users cannot submit negative weights.")};
+        if(this.weightLog.length >= 1){
+            if(date < this.weightLog[this.weightLog.length - 1].date) { throw new Error(
+            "Users cannot submit older weights than the latest on record. Focus on the future.")};
+        }
+        this.weightLog.push({weight: newWeight, date: date});
+        
+        //if a user already has a negative weight, it's because they didn't enter one when registering
+        //I want the website to not be so focused on weight, and be more focused on just doing things
+        if(this.weight() <= 0){
+            this.weight = () => newWeight;
+            if(newWeight< this.gWeight){
+                return {success: true, message : "Good job on setting your first weight! "+
+                "You're already below your goal weight!"};
+            }else{
+                return {success: false, message : "Good job on setting your first weight!"};
+            }
+            
+        }
+
+        let success = (this.gWeight() >= newWeight);
+        let diff = this.weightLog[this.weightLog.length - 2].weight - this.weightLog[this.weightLog.length - 1].weight;
+        this.weight = () => newWeight;
+            if(diff > 0){
+                if(success)
+                return {success: success, message : "Way to go! You lost " + diff + " "+ this.wUnits +" and reached your goal!"};
+                else
+                return {success: success, message : "Way to go! You lost " + diff + " "+ this.wUnits +"!"};
+            }else{
+                diff=-diff;
+                if(success)
+                    return {success: success, message : "You gained " + diff + " "+ this.wUnits +" but you're still under your goal weight, so go you!"};
+                else
+                    return {success: success, message : "You gained " + diff + " "+ this.wUnits +" but don't worry, you can still meet your goal if you try!"}; 
+            }
+        //if there is an error, should return false    
+        return false;
+        
+    }
+
+    //deletes most recently added weight
+    deleteWeight(){
+        //If they only have one weight logged, they're current weight is set to zero
+        if(this.weightLog.length == 1){
+            this.weight = () => -1;
+        }else{
+            this.weight = () => this.weightLog[this.weightLog.length -1].weight;
+        }
+        return this.weightLog.splice(this.weightLog.length -1,1);
+
+    }
+
+    //shows weight log and total progress
+    allWeight(){
+        let progress = 0;
+        if(this.weightLog.length >= 2){
+            progress = this.weightLog[this.weightLog.length-1].weight - this.weightLog[0].weight;
+        }
+        return {weights: this.weightLog,"Net Weight Change": progress};
+    }
+
+
+    //shows latest week of weight logs
+    getWeightsWeek(){
+        let temp = [];
+        let today = new Date();
+        let progress = 0;
+        let lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        for(var i=0; i< this.weightLog.length; i++){
+            if(this.weightLog[i].date >= lastWeek && this.weightLog[i].date <=today){
+                temp.push(this.weightLog[i]);
+            }
+        }
+        if(temp.length >= 2){
+            progress =this.temp[temp.length - 1].weight -this.temp[0].weight;
+        }
+        return {weights: temp, progress: progress};  
+    }
+
+    //shows weight logs for the month
+    getWeightsMonth(){
+        let temp = [];
+        let today = new Date();
+        let progress = 0;
+        for(var i=0; i< this.weightLog.length; i++){
+            let then= this.weightLog[i].date;
+            if(then.getFullYear() == today.getFullYear() && then.getMonth() == today.getMonth()){
+                temp.push(this.weightLog[i]);
+            }
+        }
+        if(temp.length >= 2){
+            progress =this.temp[temp.length - 1].weight -this.temp[0].weight;
+        }
+        return {weights: temp, progress: progress};  
+    }
+
+
+    //shows weight logs for the year
+    getWeightsYear(){
+        let temp = [];
+        let today = new Date();
+        let progress = 0;
+        for(var i=0; i< this.weightLog.length; i++){
+            let then= this.weightLog[i].date;
+            if(then.getFullYear() == today.getFullYear()){
+                temp.push(this.weightLog[i]);
+            }
+        }
+        if(temp.length >= 2){
+            progress = temp[temp.length - 1].weight - temp[0].weight;
+        }
+        return {weights: temp, progress: progress};  
+    }
+
+    //show weight logs in a date range
+    getWeightsRange(date1, date2){
+        let temp = [];
+        let progress = 0;
+        let start = new Date(date1);
+        let end = new Date(date2);
+        for(var i=0; i< this.weightLog.length; i++){
+            if(this.weightLog[i].date >= start && this.weightLog[i].date <=end){
+                temp.push(this.weightLog[i]);
+            }
+        }
+        if(temp.length >= 2){
+            progress =temp[temp.length - 1].weight -temp[0].weight;
+        }
+        return {weights: temp, progress: progress};  
+    }
+
+    //show weight logs in between two weights, with smaller weight first
+    getWeightsBetween(weight1, weight2){
+        let temp = [];
+        let progress = 0;
+        for(var i=0; i< this.weightLog.length; i++){
+            if(this.weightLog[i].weight >= weight1 && this.weightLog[i].weight <=weight2){
+                temp.push(this.weightLog[i]);
+            }
+        }
+        if(temp.length >= 2){
+            progress = temp[temp.length - 1].weight - temp[0].weight;
+        }
+        return {weights: temp, progress: progress};  
+    }
+
+
+
+
+
+    
 
 
 
@@ -409,32 +569,6 @@ class User{
 
     }
     */
-
-    logWeight({newWeight, time}){
-        if(newWeight < 0) { throw new Error("Users cannot submit negative weights.")};
-        weightLog.push({weight: newWeight, date: new Date(time)});
-        
-        //if a user already has a negative weight, it's because they didn't enter one when registering
-        //I want the website to not be so focused on weight, and be more focused on just doing things
-        if(this.weight() < 0){
-            this.weight = () => newWeight;
-            return {success: false, message : "Good job on setting your first weight!"};
-        }
-        let success = (this.gWeight() >= newWeight);
-        let diff = weightLog[this.weightLog.length - 2] - weightLog[this.weightLog.length - 1];
-        this.weight = () => newWeight;
-            if(diff > 0){
-                if(success)
-                return {success: success, message : "Way to go! You lost " + diff + " "+ this.wUnits +" and reached your goal!"};
-                else
-                return {success: success, message : "Way to go! You lost " + diff + " "+ this.wUnits +"!"};
-            }else{
-                if(success)
-                    return {success: success, message : "You gained " + diff + " "+ this.wUnits +" but you're still under your goal weight, so go you!"};
-                else
-                    return {success: success, message : "You gained " + diff + " "+ this.wUnits +" but don't worry, you can still meet your goal if you try!"}; 
-            }
-    }
 
     //friends status'
 

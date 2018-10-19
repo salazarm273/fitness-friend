@@ -156,21 +156,47 @@ app.post("/myStatus", (req, res) =>{
     res.send(fitworld.users[req.body.userId].getStatus());
 });
 
+//Logs weight
+app.post("/logWeight", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].logWeight(req.body.weight, req.body.date));
+});
+
+//deletes most recently added weight
+app.post("/deleteWeight", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].deleteWeight());
+});
+
+//shows weight log and total progress
+app.post("/allWeight", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].allWeight());
+});
+
+//shows latest week of weight logs
+app.post("/weekWeight", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getWeightsWeek());
+});
+
+//shows weight logs for the month
+app.post("/monthWeight", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getWeightsMonth());
+});
+
+//shows weight logs for the year
+app.post("/yearWeight", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getWeightsYear());
+});
+
+//show weight logs in a date range, earlier date first
+app.post("/weightRange", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getWeightsRange(req.body.date1,req.body.date2));
+});
+
+//show weight logs in between two weights, with smaller weight first
+app.post("/weightBetween", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getWeightsBetween(req.body.weight1,req.body.weight2));
+});
 
 
 
-
-
-
-
-app.post('/addWeight', (req, res) => {
-    var userId = req.header("userId");
-    let newCard = game.submitCaption(playerId, req.body.text )
-    res.send(newCard);
-})
-
-app.get("/goalWeight/:id", function(req, res){
-    res.send(fitworld.users[req.params.id].gWeight());
-})
 
 module.exports = app;
