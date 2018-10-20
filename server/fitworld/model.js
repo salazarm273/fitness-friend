@@ -190,7 +190,6 @@ class fitWorld{
         contest.contestants.push(contestant);
         return contest.contestants;
     }
-    //create example
 
     //sorts elements by date
     dateSort(array){
@@ -216,7 +215,7 @@ class User{
         this.pass = () => pass;
         this.email = email;
         this.bio = bio;
-        this.weight = () => weight; //going to be set to -1 if the user doesn't put it in form
+        this.weight = () => weight; //going to be set to -1 if the user doesn't wish to track weight
         this.wUnits = wUnits;
         this.height = () => height;
         this.hUnits = hUnits;
@@ -464,7 +463,6 @@ class User{
         this.weightLog.push({weight: newWeight, date: date});
         
         //if a user already has a negative weight, it's because they didn't enter one when registering
-        //I want the website to not be so focused on weight, and be more focused on just doing things
         if(this.weight() <= 0){
             this.weight = () => newWeight;
             if(newWeight< this.gWeight){
