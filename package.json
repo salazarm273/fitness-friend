@@ -46,7 +46,7 @@
   },
   "browserslist": [
     "> 1%",
-    "la st 2 versions",
+    "last 2 versions",
     "not ie <= 8"
   ]
 }
