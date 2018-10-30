@@ -2,7 +2,7 @@
   <div id="app" class="container">
     <div class="display-3">
       <img alt="Vue logo" src="./assets/logo.png" id="logo">
-      What do you Meme
+      Fitness Friend
       </div>  
     <Nav />
     <router-view/>
