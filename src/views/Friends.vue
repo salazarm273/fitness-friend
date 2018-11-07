@@ -36,25 +36,21 @@
  </style>
  
  <script>
- import { GetState, FlipPicture } from '@/services/api_access';
+ import * as api from '@/services/api_access';
  export default {
-     data: function(){
+     data(){
          return {
              state: {
-                 picture: ""
+                 users: []
              }
          }
      },
-     created: function(){
-         GetState()
+     created(){
+         api.GetUsers()
          .then(x=> this.state = x)
      },
      methods: {
-         flipPicture: function(){
-             FlipPicture()
-             .then(x=> getState())
-             .then(x=> this.state = x)
-         }
+         
      }
  }
  </script>
