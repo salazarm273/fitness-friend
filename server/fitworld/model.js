@@ -7,6 +7,17 @@ class fitWorld{
         this.challenges = [];
     }
     
+    //logs in with fb
+    loginfb(name, fbid, access_token){
+        let user = this.users.find(x=> x.fbid == fbid);
+        if(!user){
+            user = new User(name, this.users.length, fbid, false,null,null,null,null,null,null,null,null,null,null,null);
+            this.users.push(user);
+        }
+        user.access_token = access_token;
+        return user;
+    }
+
     //shows all users
     getAllUsers(){
         return this.users;
@@ -99,7 +110,7 @@ class fitWorld{
                 k=true;
             }
         }
-        for(var i=0; i < this.users[user2].friends.length; i++){
+        for(i=0; i < this.users[user2].friends.length; i++){
             if(this.users[user2].friends[i].id == user1){
                 this.users[user2].friends.splice(i,1);
                 j=true;
@@ -209,9 +220,11 @@ class fitWorld{
 }
 
 class User{
-    constructor(name, id, pass, email, bio, weight, wUnits, height, hUnits, gender, age, goalCalories, goalWeight){
+    constructor(name, id, fbid, isSetup, pass, email, bio, weight, wUnits, height, hUnits, gender, age, goalCalories, goalWeight){
         this.name = name;
         this.id = id;
+        this.fbid = fbid;
+        this.isSetup = false;
         this.pass = () => pass;
         this.email = email;
         this.bio = bio;
@@ -239,7 +252,7 @@ class User{
     }
 
     setGoalWeight(weight){
-        gWeight=weight;
+        this.gWeight=weight;
     }
 
     //adds activity to log and sets status
@@ -276,7 +289,7 @@ class User{
         if(index< 0) { throw new Error("No activity found with such name")}
         if(this.weight >= 180){
             this.activitiesLog.push({ name: activities[index].name, 
-                calories: activities[indexy].cal180 * duration * 2, duration: duration, date: new Date(date)});
+                calories: activities[index].cal180 * duration * 2, duration: duration, date: new Date(date)});
         }else{
             if(this.weight >= 155 || this.weight <= 0){
                 this.activitiesLog.push({ name: activities[index].name, 
@@ -489,9 +502,6 @@ class User{
                 else
                     return {success: success, message : "You gained " + diff + " "+ this.wUnits +" but don't worry, you can still meet your goal if you try!"}; 
             }
-        //if there is an error, should return false    
-        return false;
-        
     }
 
     //deletes most recently added weight

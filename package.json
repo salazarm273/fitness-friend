@@ -37,6 +37,9 @@
     "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "globals": {
+      "FB": false
     }
   },
   "postcss": {

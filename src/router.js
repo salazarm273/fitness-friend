@@ -22,6 +22,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
+      path: '/join',
+      name: 'join',
+      component: () => import('./views/Join.vue')
+    },
+    {
       path: '/friends',
       name: 'friends',
       component: () => import(/* webpackChunkName: "friends" */ './views/Friends.vue')

@@ -1,5 +1,6 @@
 const api_root = "http://localhost:8080/fitworld";
-let userId = 0;
+export let userId = null;
+export let userReady = false;
 
 export function GetUsers(){
     return myFetch(api_root + "/")
@@ -15,14 +16,18 @@ export function GetFriends(){
             })
 }
 
+export function Loginfb(name, fbid, access_token){
+    return myFetch(api_root + `/addUser`, {name: name, fbid: fbid, acces_token: access_token })
+    .then(x => userId = x.id)
+    console.log("userid is now "+userId);
+}
+
 export function AddUser(n, p, e, b, w, wu, h, hu, g, a, gc, gw){
     return myFetch(api_root + `/addUser`, { name: n, pass: p,
              email: e, bio: b, weight: w, wUnits: wu, height: h, 
              hUnits: hu, gender: g, age: a, goalCalories: gc, 
              goalWeight: gw })
-           .then(function(response) {
-                 return response.json();
-            })
+            .then(x=> userId = x.id); 
 }
 
 export function User(id){
@@ -106,7 +111,7 @@ export function ActivitiesName(n){
 }
 
 export function ActivitiesCal(c){
-    return myFetch(api_root + `/activitiesCal`, {userId: userId. cals: c})
+    return myFetch(api_root + `/activitiesCal`, {userId: userId, cals: c})
            .then(function(response) {
                  return response.json();
             })
@@ -127,21 +132,20 @@ export function AllActivities(){
 }
 
 
-
 function myFetch(url = ``, data = null) {
     let options = {
           cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
           credentials: "same-origin", // include, same-origin, *omit
           headers: {
-            userId: userId
-        }
+              userId: userId
+          }
     };
     if(data){
         options = { 
           ...options,
           method:  "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
-            ...options.headers,
+              ...options.headers,
               "Content-Type": "application/json; charset=utf-8",
               // "Content-Type": "application/x-www-form-urlencoded",
           },
