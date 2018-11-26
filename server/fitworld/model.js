@@ -15,9 +15,10 @@ class fitWorld{
             this.users.push(user);
         }
         user.access_token = access_token;
-        console.log("here2. User is "+JSON.stringify(user));
+        //console.log("here2. User is "+JSON.stringify(user));
         return user;
     }
+
 
     //shows all users
     getAllUsers(){
@@ -239,11 +240,7 @@ class User{
         this.gWeight = () => goalWeight;
         this.activitiesLog = [];
         this.foodLog = [];
-        if(weight<=0){
-            this.weightLog = [];
-        }else{
-            this.weightLog = [{weight: weight, date: new Date()}];
-        }
+        this.weightLog = [];
         this.friends = [];
         this.friendRequests = [];
         this.friendsDontSee = [];
@@ -251,6 +248,31 @@ class User{
         this.status= "";
         this.challengesWon = [];
     }
+
+    addUserInfo(bio, weight, wUnits, height, hUnits, gender, age, goalCalories, goalWeight){
+        this.isSetup = true;
+        this.bio = bio;
+        //weight is set to -1 if the user doesn't wish to track weight
+        if(weight > 0){
+            this.weight = () => weight;
+        }else{
+            this.weight = () => -1;
+        }         
+        this.wUnits = wUnits;
+        this.height = () => height;
+        this.hUnits = hUnits;
+        this.gender = gender;
+        this.age = age;
+        this.gCals = () => goalCalories;
+        this.gWeight = () => goalWeight;
+        if(weight<=0){
+            this.weightLog = [];
+        }else{
+            this.weightLog = [{weight: weight, date: new Date()}];
+        }
+        return this;
+    }
+    
 
     setGoalWeight(weight){
         this.gWeight=weight;

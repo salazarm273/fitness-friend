@@ -23,12 +23,19 @@ export function Loginfb(name, fbid, access_token){
     //.then(() => console.log("userid is now "+userId));
 }
 
+export function AddUserInfo(b, w, wu, h, hu, g, a, gc, gw){
+    return myFetch(api_root + `/addUserInfo`, { bio: b, weight: w, wUnits: wu, height: h, 
+             hUnits: hu, gender: g, age: a, goalCalories: gc, 
+             goalWeight: gw })
+            .then(()=> userReady = true); 
+}
+
 export function AddUser(n, p, e, b, w, wu, h, hu, g, a, gc, gw){
     return myFetch(api_root + `/addUser`, { name: n, pass: p,
              email: e, bio: b, weight: w, wUnits: wu, height: h, 
              hUnits: hu, gender: g, age: a, goalCalories: gc, 
              goalWeight: gw })
-            .then(x=> userId = x.id); 
+             .then(x=> userId = x.id); 
 }
 
 export function User(id){
