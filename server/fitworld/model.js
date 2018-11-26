@@ -15,6 +15,7 @@ class fitWorld{
             this.users.push(user);
         }
         user.access_token = access_token;
+        console.log("here2. User is "+JSON.stringify(user));
         return user;
     }
 
@@ -224,7 +225,7 @@ class User{
         this.name = name;
         this.id = id;
         this.fbid = fbid;
-        this.isSetup = false;
+        this.isSetup = isSetup;
         this.pass = () => pass;
         this.email = email;
         this.bio = bio;
@@ -884,5 +885,5 @@ class Challenge{
 }
 
 module.exports = {
-    fitWorld, User, Challenge
+    fitWorld, User, Challenge, activities
 }

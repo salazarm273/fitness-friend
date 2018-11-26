@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="col-md-4 col">
-    <div v-if="userId() == null" class="card">
+    <div v-if="userId() === null" class="card">
     <h3 class="card-header"> Welcome!</h3>
     <br>
     <a @click.prevent="loginfb" class="btn btn-lg btn-primary">
@@ -12,7 +12,7 @@
         Continue with Google
     </a>
     </div>
-    <div v-else>
+    <div v-else class="card">
         <h3 class="card-header">
             Tell us a little more about yourself!
         </h3>
@@ -30,7 +30,7 @@
 <script>
  import * as api from '@/services/api_access';
  import * as fb from '@/services/facebook';
- let loopTimer = null;
+ //let loopTimer = null;
  export default {
      data(){
          return {
@@ -40,11 +40,14 @@
          }
      },
      created(){
-         loopTimer = setInterval(this.refresh, 1000)
+        // loopTimer = setInterval(this.refresh, 1000)
+        api.GetUsers()
+             .then(x=> this.users = x)
      },
      methods: {
          loginfb() {
              fb.FBLogin()
+             .then(this.refresh())
          },
           refresh(){
              api.GetUsers()

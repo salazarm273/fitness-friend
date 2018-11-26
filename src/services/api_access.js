@@ -1,4 +1,4 @@
-const api_root = "http://localhost:8080/fitworld";
+const api_root = "http://localhost:3000/fitworld";
 export let userId = null;
 export let userReady = false;
 
@@ -17,9 +17,10 @@ export function GetFriends(){
 }
 
 export function Loginfb(name, fbid, access_token){
-    return myFetch(api_root + `/addUser`, {name: name, fbid: fbid, acces_token: access_token })
-    .then(x => userId = x.id)
-    console.log("userid is now "+userId);
+    console.log("here 1")
+    return myFetch(api_root + `/addUser`, { name, fbid, access_token })
+    .then(x=> userId = x.id);
+    //.then(() => console.log("userid is now "+userId));
 }
 
 export function AddUser(n, p, e, b, w, wu, h, hu, g, a, gc, gw){
@@ -140,6 +141,7 @@ function myFetch(url = ``, data = null) {
               userId: userId
           }
     };
+
     if(data){
         options = { 
           ...options,
@@ -152,6 +154,9 @@ function myFetch(url = ``, data = null) {
           body: JSON.stringify(data), // body data type must match "Content-Type" header
         };
     }
+    console.log("url is "+url);
+    console.log("options is "+JSON.stringify(options));
+    console.log("data is "+ JSON.stringify(data));
     return fetch(url, options)
     .then(response =>{
       return response.json()

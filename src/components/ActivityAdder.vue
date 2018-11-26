@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import * as m from 'server\fitworld\model.js';
+//import * as m from 'server\fitworld\model.js';
 export default {
-    name: ActivityAdder,
+    name: "ActivityAdder",
     data(){
         return {
             activity: null,
@@ -44,7 +44,7 @@ export default {
         }
     },
     methods: {
-        activities: ()=> m.activities[],
+        //activities: ()=> m.activities,
         
         onSubmit() {
         let newActivity = {

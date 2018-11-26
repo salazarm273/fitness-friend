@@ -9,6 +9,8 @@ import * as api from './api_access'
       
     FB.AppEvents.logPageView();   
     
+
+    // eslint-disable-next-line
     FB.getLoginStatus(function(response) {
         statusChangeCallback(response);
     });
@@ -20,16 +22,19 @@ import * as api from './api_access'
      js.src = "https://connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-    export function FBLogin(){
+    
+   
+   export function FBLogin(){
        FB.login(
            response => statusChangeCallback(response),
-           {scope: 'public_profile,email'}
+           {scope: 'public_profile,email,user_photos'}
        )
    }
-    function statusChangeCallback(response){
-       console.log(response);
-       FB.api("/me", me => {
-        console.log(me);
-        api.Loginfb(me.name, response.authResponse.userID, response.authResponse.accessToken)
-        })
+   function statusChangeCallback(response){
+    console.log(response);
+    FB.api("/me?fields=name,email,birthday,picture", me => {
+     console.log(me);
+     api.Loginfb(me.name, response.authResponse.userID, response.authResponse.accessToken)
+
+    })
    } 

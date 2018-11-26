@@ -27,9 +27,39 @@ export default new Router({
       component: () => import('./views/Join.vue')
     },
     {
+      path: '/activities',
+      name: 'activities',
+      component: () => import('./views/Activities.vue')
+    },
+    {
       path: '/friends',
       name: 'friends',
       component: () => import(/* webpackChunkName: "friends" */ './views/Friends.vue')
+    },
+    {
+      path: '/news',
+      name: 'news',
+      component: () => import('./views/News.vue')
+    },
+    {
+      path: '/cals',
+      name: 'cals',
+      component: () => import('./views/Calories.vue')
+    },
+    {
+      path: '/challenges',
+      name: 'challenges',
+      component: () => import('./views/Challenges.vue')
+    },
+    {
+      path: '/foodlog',
+      name: 'foodlog',
+      component: () => import('./views/FoodLog.vue')
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: () => import('./views/Notifications.vue')
     }
 
   ]

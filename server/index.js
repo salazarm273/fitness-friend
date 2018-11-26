@@ -13,7 +13,7 @@ app.use(function(req, res, next) {
 });
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use("/", express.static(__dirname + "/../client/"));
+app.use("/", express.static(__dirname + "/../dist/"));
 app.use('/fitWorld', fitWorld);
 
 app.listen(port);
