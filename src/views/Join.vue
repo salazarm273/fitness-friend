@@ -130,8 +130,7 @@
      },
      methods: {
          loginfb() {
-             fb.FBLogin()
-             .then(this.refresh())
+             fb.FBLogin(()=> this.refresh())
          },
           refresh(){
              api.GetUsers()
@@ -140,6 +139,7 @@
          onSubmit() {
              api.AddUserInfo(this.bio,this.weight,this.wUnits,this.height,
              this.hUnits,this.gender,this.age,this.gCals, this.gWeight)
+             .then(()=> this.refresh())
          },
          userId: ()=> api.userId,
          userReady: ()=> api.userReady

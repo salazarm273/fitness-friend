@@ -5,29 +5,33 @@ export let userReady = false;
 export function GetUsers(){
     return myFetch(api_root + "/")
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function GetFriends(){
     return myFetch(api_root + `/seeFriends`, {userId: userId})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function Loginfb(name, fbid, access_token){
     console.log("here 1")
     return myFetch(api_root + `/addUser`, { name, fbid, access_token })
-    .then(x=> userId = x.id);
+    .then(x=> {
+         userId = x.id
+       
+    }
+        );
     //.then(() => console.log("userid is now "+userId));
 }
 
 export function AddUserInfo(b, w, wu, h, hu, g, a, gc, gw){
-    return myFetch(api_root + `/addUserInfo`, { bio: b, weight: w, wUnits: wu, height: h, 
+    return myFetch(api_root + `/addUserInfo`, { userId: userId, bio: b, weight: w, wUnits: wu, height: h, 
              hUnits: hu, gender: g, age: a, goalCalories: gc, 
              goalWeight: gw })
-            .then(()=> userReady = true); 
+            .then(()=> {userReady = true}); 
 }
 
 export function AddUser(n, p, e, b, w, wu, h, hu, g, a, gc, gw){
@@ -161,9 +165,9 @@ function myFetch(url = ``, data = null) {
           body: JSON.stringify(data), // body data type must match "Content-Type" header
         };
     }
-    console.log("url is "+url);
-    console.log("options is "+JSON.stringify(options));
-    console.log("data is "+ JSON.stringify(data));
+    //console.log("url is "+url);
+    //console.log("options is "+JSON.stringify(options));
+    //console.log("data is "+ JSON.stringify(data));
     return fetch(url, options)
     .then(response =>{
       return response.json()
