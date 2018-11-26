@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="col-md-4 col">
-    <div v-if="userId() === null && userReady() == false" class="card">
+    <div v-if="userId === null && userReady == false" class="card">
     <h3 class="card-header"> Welcome!</h3>
     <br>
     <a @click.prevent="loginfb" class="btn btn-lg btn-primary">
@@ -12,7 +12,7 @@
         Continue with Google
     </a>
     </div>
-    <div v-if="userId() !== null && userReady() == false" class="card">
+    <div v-if="userId !== null && userReady == false" class="card">
         <h3 class="card-header">
             Tell us a little more about yourself!
         </h3>
@@ -85,7 +85,7 @@
     </div>
     
     </div>
-    <div v-if="userReady()" class="card">
+    <div v-if="userReady" class="card">
         <h3 class="card-header"> Welcome!</h3>
     <br>
     <p>
@@ -119,7 +119,9 @@
                  gender: null,
                  age: null,
                  gCals: null, 
-                 gWeight: null
+                 gWeight: null,
+                 userReady: api.userReady,
+                 userId: api.userId
 
          }
      },
@@ -135,14 +137,16 @@
           refresh(){
              api.GetUsers()
              .then(x=> this.users = x)
+             .then(()=> this.userReady = api.userReady)
+             .then(()=> this.userId = api.userId)
          },
          onSubmit() {
              api.AddUserInfo(this.bio,this.weight,this.wUnits,this.height,
              this.hUnits,this.gender,this.age,this.gCals, this.gWeight)
              .then(()=> this.refresh())
          },
-         userId: ()=> api.userId,
-         userReady: ()=> api.userReady
+         //userId: ()=> api.userId,
+         //userReady: ()=> api.userReady
      }
  }
  </script> 
