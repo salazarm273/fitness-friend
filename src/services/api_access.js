@@ -66,7 +66,7 @@ export function GetAvailableActivities(){
 
 export function LogActivity(i, d, da, s){
     return myFetch(api_root + `/logActivity`, 
-    {user: userId, index: i, duration: d, date: da, set: s})
+    {userId: userId, index: i, duration: d, date: da, set: s})
            .then(function(response) {
                  return response;
             })
@@ -82,7 +82,7 @@ export function LogActivityName(a, d, da, s){
 
 export function ActivitiesRange(d1, d2){
     return myFetch(api_root + `/activitiesRange`, 
-    {user: userId, date1: d1, date2: d2})
+    {userId: userId, date1: d1, date2: d2})
            .then(function(response) {
                  return response;
             })
@@ -150,6 +150,80 @@ export function AllActivities(){
                  return response;
             })
 }
+
+export function LogFood(n, s, c, d, a){
+    return myFetch(api_root + `/logFood`, {userId: userId, name: n, servings: s, calories: c, date: d, add: a})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function LogFoodIndex(i, s, d){
+    return myFetch(api_root + `/logFoodIndex`, {userId: userId, index: i, servings: s, date: d})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function DeleteFood(){
+    return myFetch(api_root + `/deleteFood`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ShowFoodAll(){
+    return myFetch(api_root + `/foodDiary`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ShowFoodDay(){
+    return myFetch(api_root + `/foodDiaryDay`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ShowFoodWeek(){
+    return myFetch(api_root + `/foodDiaryWeek`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ShowFoodMonth(){
+    return myFetch(api_root + `/foodDiaryMonth`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ShowFoodYear(){
+    return myFetch(api_root + `/foodDiaryYear`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ShowFoodRange(d1,d2){
+    return myFetch(api_root + `/foodDiaryRange`, {userId: userId, date1: d1, date2: d2})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ShowFoodBetweenCal(c1, c2){
+    return myFetch(api_root + `/foodDiaryBewtween`, {userId: userId, cal1: c1, cal2:c2})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+
+
+
 
 
 function myFetch(url = ``, data = null) {
