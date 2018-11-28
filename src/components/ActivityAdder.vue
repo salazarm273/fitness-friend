@@ -1,6 +1,6 @@
 <template>
 <div>
-<form class="activity-form" @submit.prevent="onSubmit">
+<form class="activity-form" @submit.prevent="onSubmit"> 
       
       <p>
         <label for="activity">Activity</label>

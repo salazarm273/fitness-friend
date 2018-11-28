@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="col-md-4 col">
+    <div class="col-md-6 col">
     <div v-if="userId === null && userReady == false" class="card">
     <h3 class="card-header"> Welcome!</h3>
     <br>
@@ -144,7 +144,7 @@
              api.AddUserInfo(this.bio,this.weight,this.wUnits,this.height,
              this.hUnits,this.gender,this.age,this.gCals, this.gWeight)
              .then(()=> this.refresh())
-         },
+         }
          //userId: ()=> api.userId,
          //userReady: ()=> api.userReady
      }

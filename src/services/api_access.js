@@ -52,7 +52,15 @@ export function User(id){
 export function UserNames(n){
     return myFetch(api_root + `/userNames`, {name: n})
            .then(function(response) {
-                 return response.json();
+                 return response;
+            })
+}
+
+
+export function GetAvailableActivities(){
+    return myFetch(api_root + `/activityOpts`)
+           .then(function(response) {
+                 return response;
             })
 }
 
@@ -60,15 +68,15 @@ export function LogActivity(i, d, da, s){
     return myFetch(api_root + `/logActivity`, 
     {user: userId, index: i, duration: d, date: da, set: s})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function LogActivityName(a, d, da, s){
     return myFetch(api_root + `/logActivityName`, 
-    {user: userId, activity: a, duration: d, date: da, set: s})
+    {userId: userId, activity: a, duration: d, date: da, set: s})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
@@ -76,70 +84,70 @@ export function ActivitiesRange(d1, d2){
     return myFetch(api_root + `/activitiesRange`, 
     {user: userId, date1: d1, date2: d2})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivitiesWeek(){
     return myFetch(api_root + `/activitiesWeek`, {userId: userId})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivitiesDay(){
     return myFetch(api_root + `/activitiesDay`, {userId: userId})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivitiesMonth(){
     return myFetch(api_root + `/activitiesMonth`, {userId: userId})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivitiesYear(){
     return myFetch(api_root + `/activitiesYear`, {userId: userId})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivityShow(i){
     return myFetch(api_root + `/activityShow`, {userId: userId, index: i})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivitiesName(n){
     return myFetch(api_root + `/activitiesName`, {userId: userId, name: n})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivitiesCal(c){
     return myFetch(api_root + `/activitiesCal`, {userId: userId, cals: c})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function ActivitiesDuration(d){
     return myFetch(api_root + `/activitiesDuration`, {userId: userId, dur: d})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 
 export function AllActivities(){
     return myFetch(api_root + `/allActivities`, {userId: userId})
            .then(function(response) {
-                 return response.json();
+                 return response;
             })
 }
 

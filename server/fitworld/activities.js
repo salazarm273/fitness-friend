@@ -1,5 +1,4 @@
 //data taken from "https://www.health.harvard.edu/diet-and-weight-loss/calories-burned-in-30-minutes-of-leisure-and-routine-activities"
-//will add more later
 module.exports =[
 {name: "Weight Lifting", cal125: 90,cal155: 112,cal180: 133},
 {name: "Water Aerobics", cal125: 120,cal155: 149,cal180: 178},

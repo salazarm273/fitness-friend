@@ -5,6 +5,7 @@ class fitWorld{
     constructor(){
         this.users =[];
         this.challenges = [];
+        this.availableActivities = activities;
     }
     
     //logs in with fb
@@ -23,6 +24,11 @@ class fitWorld{
     //shows all users
     getAllUsers(){
         return this.users;
+    }
+
+    getActivityOpts(){
+        console.log(this.activities);
+        return this.activities;
     }
 
     //shows all users with name

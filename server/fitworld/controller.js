@@ -11,6 +11,11 @@ app.get("/", function(req, res){
     res.send(fitworld.users);
 });
 
+//returns the options for activities
+app.get("/activityOpts", (req, res) => {
+    res.send(fitworld.availableActivities);
+})
+
 //adds user uisng fb
 app.post("/addUser", (req, res) => {
         //const user = new User(req.body.name, fitworld.users.length, req.body.pass, req.body.email, req.body.bio, req.body.weight,
