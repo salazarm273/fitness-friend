@@ -272,6 +272,11 @@ app.post("/foodDiaryBetween", (req, res) =>{
     res.send(fitworld.users[req.body.userId].getFoodBetween(req.body.cal1,req.body.cal2));
 });
 
+//shows all available food items
+app.get("/foodOpts", (req, res) =>{
+    res.send(fitworld.getFoodOpts());
+});
+
 
 //changes goal weight
 app.post("/newGoalWeight", (req, res) =>{

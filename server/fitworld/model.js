@@ -224,6 +224,10 @@ class fitWorld{
         }
         return array;
     }
+    //returns available food options
+    getFoodOpts(){
+        return foods;
+    }
 
 }
 

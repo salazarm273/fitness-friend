@@ -4,7 +4,7 @@
         <div class="col-md-6">
             <div class="card">
                     <h5 class="card-header">
-                        Recent Activities
+                        {{ topic }}
                     </h5>
                     <ul class="list-group list-group-flush">
                         <li v-for="a in activitiesDisplay.activities" :key="a.name"
@@ -164,12 +164,14 @@ export default {
             date2: null,
             searchName: null,
             searchDuration: null,
-            searchCals: null
+            searchCals: null,
+            topic: null
         }
     },
     created(){
         api.ActivitiesWeek()
         .then(x=> this.activitiesDisplay = x)
+        .then(()=> this.topic = "This Week")
         loopTimer = setInterval(this.refresh, 1000);
     },
     methods: {
@@ -180,22 +182,27 @@ export default {
         todayActivities(){
             api.ActivitiesDay()
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "Today")
         },
         weekActivities(){
             api.ActivitiesWeek()
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "This Week")
         },
         monthActivities(){
             api.ActivitiesMonth()
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "This Month")
         },
         yearActivities(){
             api.ActivitiesYear()
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "This Year")
         },
         allActivities(){
             api.AllActivities()
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "All Activities Ever")
         },
         refresh(){
              api.GetUsers()
@@ -223,18 +230,22 @@ export default {
         onSubmitDateRange(){
             api.ActivitiesRange(this.date1, this.date2)
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "From "+ this.date1 +" to "+ this.date2)
         },
         onSubmitName(){
             api.ActivitiesName(this.searchName)
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "All "+this.searchName)
         },
         onSubmitDuration(){
             api.ActivitiesDuration(this.searchDuration)
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "All Activities at Least " +this.searchDuration +" Hours Long")
         },
         onSubmitCal(){
             api.ActivitiesCal(this.searchCals)
             .then(x=> this.activitiesDisplay = x)
+            .then(()=> this.topic = "Activities that Burned at Least "+ this.searchCals +" Calories")
         }
     },
     computed: {

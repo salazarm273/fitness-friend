@@ -158,8 +158,8 @@ export function LogFood(n, s, c, d, a){
             })
 }
 
-export function LogFoodIndex(i, s, d){
-    return myFetch(api_root + `/logFoodIndex`, {userId: userId, index: i, servings: s, date: d})
+export function LogFoodName(n, s, d){
+    return myFetch(api_root + `/logFoodName`, {userId: userId, name: n, servings: s, date: d})
            .then(function(response) {
                  return response;
             })
@@ -215,11 +215,19 @@ export function ShowFoodRange(d1,d2){
 }
 
 export function ShowFoodBetweenCal(c1, c2){
-    return myFetch(api_root + `/foodDiaryBewtween`, {userId: userId, cal1: c1, cal2:c2})
+    return myFetch(api_root + `/foodDiaryBetween`, {userId: userId, cal1: c1, cal2:c2})
            .then(function(response) {
                  return response;
             })
 }
+
+export function GetAvailableFoods(){
+    return myFetch(api_root + `/foodOpts`)
+           .then(function(response) {
+                 return response;
+            })
+}
+
 
 
 
