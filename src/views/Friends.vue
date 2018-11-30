@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Friend List</h5>
                      <ul class="list-group list-group-flush">
-                        <li v-for="c in myCaptions" class="list-group-item">{{c}}</li>
+                    
                     </ul>
                 </div>
             </div>

@@ -12,7 +12,7 @@ class fitWorld{
     loginfb(name, fbid, access_token){
         let user = this.users.find(x=> x.fbid == fbid);
         if(!user){
-            user = new User(name, this.users.length, fbid, false,null,null,null,null,null,null,null,null,null,null,null);
+            user = new User(name, this.users.length, fbid, false,null,null,null,null,null,null,null,null,null,-1,-1);
             this.users.push(user);
         }
         user.access_token = access_token;
@@ -27,7 +27,6 @@ class fitWorld{
     }
 
     getActivityOpts(){
-        console.log(this.activities);
         return this.activities;
     }
 
@@ -160,7 +159,7 @@ class fitWorld{
             }
         }
         if(temp.length >= 2){
-            this.temp= this.dateSort(temp);
+            temp= this.dateSort(temp);
         }
         
         return temp;
@@ -246,8 +245,8 @@ class User{
         this.hUnits = hUnits;
         this.gender = gender;
         this.age = age;
-        this.gCals = () => goalCalories;
-        this.gWeight = () => goalWeight;
+        this.gCals = goalCalories;
+        this.gWeight = goalWeight;
         this.activitiesLog = [];
         this.foodLog = [];
         this.weightLog = [];
@@ -273,8 +272,16 @@ class User{
         this.hUnits = hUnits;
         this.gender = gender;
         this.age = age;
-        this.gCals = () => goalCalories;
-        this.gWeight = () => goalWeight;
+        if(goalCalories>0){
+            this.gCals = () => goalCalories;
+        }else{
+            this.gCals = () => -1;
+        }
+        if(goalWeight > 0){
+            this.gWeight =  goalWeight;
+        }else{
+            this.gWeight =  0;
+        }
         if(weight<=0){
             this.weightLog = [];
         }else{
@@ -283,9 +290,17 @@ class User{
         return this;
     }
     
-
+    hasGoalWeight(){
+        if(this.gWeight == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
     setGoalWeight(weight){
-        this.gWeight=weight;
+        this.gWeight= weight;
+        return {value: this.gWeight};
     }
 
     //adds activity to log and sets status
@@ -520,7 +535,7 @@ class User{
             
         }
 
-        let success = (this.gWeight() >= newWeight);
+        let success = (this.gWeight >= newWeight);
         let diff = this.weightLog[this.weightLog.length - 2].weight - this.weightLog[this.weightLog.length - 1].weight;
         this.weight = () => newWeight;
             if(diff > 0){
@@ -555,7 +570,7 @@ class User{
         if(this.weightLog.length >= 2){
             progress = this.weightLog[this.weightLog.length-1].weight - this.weightLog[0].weight;
         }
-        return {weights: this.weightLog,"Net Weight Change": progress};
+        return {weights: this.weightLog, progress: progress};
     }
 
 
@@ -571,7 +586,7 @@ class User{
             }
         }
         if(temp.length >= 2){
-            progress =this.temp[temp.length - 1].weight -this.temp[0].weight;
+            progress = temp[temp.length - 1].weight - temp[0].weight;
         }
         return {weights: temp, progress: progress};  
     }
@@ -588,7 +603,7 @@ class User{
             }
         }
         if(temp.length >= 2){
-            progress =this.temp[temp.length - 1].weight -this.temp[0].weight;
+            progress = temp[temp.length - 1].weight - temp[0].weight;
         }
         return {weights: temp, progress: progress};  
     }
@@ -641,6 +656,20 @@ class User{
             progress = temp[temp.length - 1].weight - temp[0].weight;
         }
         return {weights: temp, progress: progress};  
+    }
+
+    weightLeft(){
+        if(this.hasGoalWeight() && this.weight()>0){
+            let x = this.weight();
+            let temp = x - this.gWeight;
+            if(temp < 1){
+                return{suceeded: true, left: temp + " "+ this.wUnits};
+            }else{
+                return{suceeded: false, left: temp + " "+ this.wUnits};
+            }
+        }else{
+            return{suceeded: false, left: 0 + " "+ this.wUnits};
+        }
     }
 
     //logs a food that is not in the food array already
@@ -816,10 +845,14 @@ class User{
         return {foods: temp, calories: total};
     }
 
-    //changes goal weight
-    setGoalW(newGoal){
-        this.gWeight = () => newGoal;
-        return this.gWeight();
+    //returns goal weight
+    getGoalW(){
+        return {value: this.gWeight};
+    }
+
+    //returns weight units
+    getWUnits(){
+        return {units: this.wUnits};
     }
 
 

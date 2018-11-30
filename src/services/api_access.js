@@ -228,8 +228,96 @@ export function GetAvailableFoods(){
             })
 }
 
+export function LogWeight(w, d){
+    return myFetch(api_root + `/logWeight`, {userId: userId, weight: w, date:d})
+           .then(function(response) {
+                 return response;
+            })
+}
 
+export function DeleteWeight(){
+    return myFetch(api_root + `/deleteWeight`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
 
+export function WeekWeight(){
+    return myFetch(api_root + `/weekWeight`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function MonthWeight(){
+    return myFetch(api_root + `/monthWeight`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function YearWeight(){
+    return myFetch(api_root + `/yearWeight`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function AllWeight(){
+    return myFetch(api_root + `/allWeight`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function RangeWeight(d1,d2){
+    return myFetch(api_root + `/weightRange`, {userId: userId, date1: d1, date2:d2})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function WeightBetweenWeights(w1,w2){
+    return myFetch(api_root + `/weightBetween`, {userId: userId, weight1: w1, weight2:w2})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function WeightLeft(){
+    return myFetch(api_root + `/weightLeft`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetGoalWeight(){
+    return myFetch(api_root + `/weightGoal`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function SetGoalWeight(g){
+    return myFetch(api_root + `/newGoalWeight`, {userId: userId, goal: g})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function HasGoalWeight(){
+    return myFetch(api_root + `/hasWeightGoal`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetWeightUnits(){
+    return myFetch(api_root + `/weightUnits`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
 
 
 

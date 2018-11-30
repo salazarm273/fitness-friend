@@ -165,8 +165,8 @@ export default {
     created(){
         api.ShowFoodWeek()
         .then(x=> this.FoodsDisplay = x)
-        .then(()=> this.focus = "This Week")
         .then(()=> this.getAvailableFoods())
+        .then(()=> this.focus = "This Week")
         loopTimer = setInterval(this.refresh, 1000);
     },
     methods: {
@@ -251,7 +251,7 @@ export default {
             api.ShowFoodBetweenCal(this.cal1, this.cal2)
             .then(x=> this.FoodsDisplay = x)
             .then(()=> this.focus = "From " + this.cal1 + " to " + this.cal2 + " calories" )
-         },
+         }
     },
     computed: {
         

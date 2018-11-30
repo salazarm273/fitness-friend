@@ -57,6 +57,11 @@ export default new Router({
       component: () => import('./views/FoodLog.vue')
     },
     {
+      path: '/weight',
+      name: 'weight',
+      component: () => import('./views/Weight.vue')
+    },
+    {
       path: '/notifications',
       name: 'notifications',
       component: () => import('./views/Notifications.vue')

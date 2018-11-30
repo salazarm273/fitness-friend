@@ -27,6 +27,9 @@
         <router-link class="nav-link" exact-active-class="active" to="/cals">Calorie Report</router-link>
       </li>
       <li v-if="userReady" class="nav-item">
+        <router-link class="nav-link" exact-active-class="active" to="/weight">Weight Log</router-link>
+      </li>
+      <li v-if="userReady" class="nav-item">
         <router-link class="nav-link" exact-active-class="active" to="/challenges">Challenges</router-link>
       </li>
       <li v-if="userReady" class="nav-item">

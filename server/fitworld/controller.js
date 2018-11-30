@@ -177,6 +177,11 @@ app.post("/logWeight", (req, res) =>{
     res.send(fitworld.users[req.body.userId].logWeight(req.body.weight, req.body.date));
 });
 
+//Gets difference to goal weight
+app.post("/weightLeft", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].weightLeft());
+});
+
 //deletes most recently added weight
 app.post("/deleteWeight", (req, res) =>{
     res.send(fitworld.users[req.body.userId].deleteWeight());
@@ -210,6 +215,16 @@ app.post("/weightRange", (req, res) =>{
 //show weight logs in between two weights, with smaller weight first
 app.post("/weightBetween", (req, res) =>{
     res.send(fitworld.users[req.body.userId].getWeightsBetween(req.body.weight1,req.body.weight2));
+});
+
+//gets goal weight
+app.post("/weightGoal", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getGoalW());
+});
+
+//gets the units of weight for user
+app.post("/weightUnits", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].getWUnits());
 });
 
 //logs a food that is not in the food array already
@@ -278,10 +293,16 @@ app.get("/foodOpts", (req, res) =>{
 });
 
 
+//checks if user has goal weight
+app.post("/hasWeightGoal", (req, res) =>{
+    res.send(fitworld.users[req.body.userId].hasGoalWeight());
+});
+
 //changes goal weight
 app.post("/newGoalWeight", (req, res) =>{
-    res.send(fitworld.users[req.body.userId].setGoalW(req.body.goal));
+    res.send(fitworld.users[req.body.userId].setGoalWeight(req.body.goal));
 });
+
 
 //changes goal calories
 app.post("/newGoalCal", (req, res) =>{
