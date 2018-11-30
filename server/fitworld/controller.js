@@ -332,7 +332,7 @@ app.post("/caloriesYear", (req, res) =>{
 //Shows aggregate calorie status for a date range
 app.post("/caloriesRange", (req, res) =>{
     res.send(fitworld.users[req.body.userId].getReportRange(req.body.date1,
-        req.body.date2, req.body.days));
+        req.body.date2));
 });
 
 //adds challenge

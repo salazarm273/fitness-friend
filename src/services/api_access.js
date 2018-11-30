@@ -319,7 +319,47 @@ export function GetWeightUnits(){
             })
 }
 
+export function SetGoalCal(c){
+    return myFetch(api_root + `/newGoalCal`, {userId: userId, goal: c})
+           .then(function(response) {
+                 return response;
+            })
+}
 
+export function CaloriesDay(){
+    return myFetch(api_root + `/caloriesDay`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function CaloriesWeek(){
+    return myFetch(api_root + `/caloriesWeek`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function CaloriesMonth(){
+    return myFetch(api_root + `/caloriesMonth`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function CaloriesYear(){
+    return myFetch(api_root + `/caloriesYear`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function CaloriesRange(d1,d2){
+    return myFetch(api_root + `/caloriesRange`, {userId: userId, date1:d1, date2:d2})
+           .then(function(response) {
+                 return response;
+            })
+}
 
 
 function myFetch(url = ``, data = null) {

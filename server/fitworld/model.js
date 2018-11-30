@@ -265,7 +265,7 @@ class User{
         if(weight > 0){
             this.weight = () => weight;
         }else{
-            this.weight = () => -1;
+            this.weight = () => 0;
         }         
         this.wUnits = wUnits;
         this.height = () => height;
@@ -275,7 +275,7 @@ class User{
         if(goalCalories>0){
             this.gCals = () => goalCalories;
         }else{
-            this.gCals = () => -1;
+            this.gCals = () => 0;
         }
         if(goalWeight > 0){
             this.gWeight =  goalWeight;
@@ -859,7 +859,7 @@ class User{
     //changes goal calories
     setGoalC(newGoal){
         this.gCals = () => newGoal;
-        return this.gCals();
+        return {goal: this.gCals()};
     }
 
     //Shows aggregate calorie status for the day
@@ -906,7 +906,10 @@ class User{
     }
 
     //Shows aggregate calorie status for a date range
-    getReportRange(date1,date2,days){
+    getReportRange(date1,date2){
+        let d1= new Date(date1);
+        let d2 = new Date(date2);
+        let days = (d2.getTime() - d1.getTime()) / (1000*60*60*24)
         let goal = this.gCals() * days;
         let eaten = this.getFoodRange(date1,date2).calories;
         let burned = this.getActivitiesRange(date1,date2).caloriesBurned;

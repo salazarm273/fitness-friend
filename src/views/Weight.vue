@@ -52,6 +52,7 @@
                     <p v-if="!weightLeft.suceeded"> Only {{weightLeft.left}} more to go!</p>
             </div>
             <div v-else class="card">
+                <p>You have no goal weight set, and that's okay!</p>
                 <img src="../../weightCat.jpg">
             </div>
             <form class="weightsSubForm" @submit.prevent="onSubmitNewGoal">
