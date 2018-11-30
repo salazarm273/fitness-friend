@@ -359,4 +359,14 @@ app.post("/challengeJoin", (req, res) => {
     res.send(fitworld.joinChallenge(req.body.userId, req.body.chalId));
 });
 
+//returns all news articles
+app.get("/getNews", (req, res) =>{
+    res.send(fitworld.getNews());
+});
+
+//returns info on a specific news articles
+app.post("/getNewsInfo", (req, res) =>{
+    res.send(fitworld.getNewsInfo(req.body.index));
+});
+
 module.exports = app;

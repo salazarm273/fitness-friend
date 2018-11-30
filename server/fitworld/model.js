@@ -1,5 +1,6 @@
 const activities = require('./activities')
 const foods = require("./foods")
+const news = require("./news")
 
 class fitWorld{
     constructor(){
@@ -226,6 +227,16 @@ class fitWorld{
     //returns available food options
     getFoodOpts(){
         return foods;
+    }
+
+    //returns news articles
+    getNews(){
+        return news;
+    }
+
+    //returns info on a news article
+    getNewsInfo(index){
+        return news[index];
     }
 
 }

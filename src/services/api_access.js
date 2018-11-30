@@ -361,6 +361,19 @@ export function CaloriesRange(d1,d2){
             })
 }
 
+export function GetNews(){
+    return myFetch(api_root + `/getNews`)
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetArticleInfo(i){
+    return myFetch(api_root + `/getNewsInfo`, {index: i})
+           .then(function(response) {
+                 return response;
+            })
+}
 
 function myFetch(url = ``, data = null) {
     let options = {
