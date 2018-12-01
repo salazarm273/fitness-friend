@@ -45,6 +45,12 @@ app.post("/userNames", (req, res) => {
     res.send(fitworld.getUsersByNames(req.body.name));
 })
 
+//checks if users are friends 
+app.post("/areFriends", (req, res) => {
+    res.send(fitworld.users[req.body.userId].isFriend(req.body.user2));
+})
+
+
 //adds activity by index
 app.post("/logActivity", (req, res) => {
     let x = fitworld.users[req.body.userId].logActivity(req.body.index, req.body.duration, req.body.date, req.body.set);

@@ -1,57 +1,292 @@
 <template>
 <div>
-     <div class="row">
-        <div class="col-md-4">
-            <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Friend List</h5>
-                     <ul class="list-group list-group-flush">
-                    
-                    </ul>
-                </div>
+    <div class="row">
+       <div class="col-md-4">
+            <div v-if="!onProfile" class="card">
+                <h5 class="card-header">
+                    Friends List
+                </h5>
+                <ul class="list-group list-group-flush">
+                    <li @click.prevent="showProfile(f.id)" v-for="f in friends" :key="f.id"
+                    class="list-group-item">
+                    <h5>{{f.name}}</h5>
+                    </li>
+                </ul> 
+            </div>
+             <div v-if="onProfile" class="card">
+                <h5 class="card-header">{{viewing.name}}</h5>
+                <p>id: {{viewing.id}} age: {{viewing.age}}</p>
+                <p>bio: {{viewing.bio}}</p>
+                <p v-if="viewing.status != ''">status: {{viewing.status}}</p>
+                <a @click.prevent="unFriend" class="btn btn-danger">Unfriend User</a>
+                <br>
+                <a @click.prevent="backToFriends" class="btn btn-primary">Back to Friends List</a>
             </div>
         </div>
+
         <div class="col-md-4">
-            <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">What have you been up to?</h5>
-                    <p class="card-text">This will be a basic text input form, with the button settng this input as this user's status</p>
-                    <a href="#" class="btn btn-primary">Set as Status</a>
-                </div>
-            </div>
-            <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Friend Feed</h5>
-                    <p class="card-text">Will show the status of their friends, maybe only 10 or 20 at a time with the button showing more?</p>
-                    <a href="#" class="btn btn-primary">See More</a>
-                </div>
+            <div class="card">
+                    <h5 class="card-header">Friend Feed</h5>
+            
+            <form class="StatusForm" @submit.prevent="onSubmitStatus">
+                    <p>
+                        <textarea v-model="newStatus" placeholder="Tell you're friends what you're up to"></textarea>
+                    </p>
+                    <p>
+                        <input type="submit" value="Set New Status">  
+                    </p>
+            </form>
+            <br>
+            <p v-if="myStatus != ''">My Status: {{myStatus.status}} , {{myStatus.date}}</p>
+            <br>
+
+            <ul class="list-group list-group-flush">
+                <li v-for="s in friendfeed" :key="s.status"
+                    class="list-group-item">
+                    <h5>{{s.status}}, {{s.date}} </h5>
+                </li>
+            </ul>
             </div>
         </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">Options</h5>
+                <a v-if="!showAddFriend" @click.prevent="revealAddFriend" class="btn btn-primary">Add a Friend</a>
+                <div v-if="showAddFriend">
+                <form v-if="!seeingResults" class="friendSubForm" @submit.prevent="lookupUsers">
+                    <p>
+                    <label for="searchName">Look up User by Name </label>
+                    <input id="searchName" v-model="searchName" placeholder="username">
+                    </p>
+                    <p>
+                    <input type="submit" value="Search">  
+                    </p>  
+                </form>
+                <div v-if="seeingResults">
+                    <ul class="list-group list-group-flush">
+                    <li v-for="p in potentialFriends" :key="p.id"
+                    class="list-group-item">
+                    <h5>{{p.name}}</h5>
+                    <p>id: {{p.id}} age: {{p.age}}</p>
+                    <p>bio: {{p.bio}}</p>
+                    <a @click.prevent="addFriendName(p.id)" class="btn btn-primary">Send Friend Request</a>
+                    <br>
+                    </li>
+                    <a @click.prevent="sawResults" class="btn btn-primary">Search a Different Name</a>
+                </ul> 
+                </div>
+
+                <p>or</p>
+                <form class="friendSubForm" @submit.prevent="friendById">
+                    <p>
+                    <label for="friendId">Already know their id?</label>
+                    <input id="friendId" v-model="friendId" placeholder="user ID">
+                    </p>
+                    <p>
+                    <input type="submit" value="Send Friend Request Directly to User">  
+                    </p>  
+                </form>
+                <a @click.prevent="hideAddFriend" class="btn btn-primary">Close Add Friend Form</a>
+                </div>
+
+
+                <a v-if="!showHideform" @click.prevent="revealHideForm" class="btn btn-primary">
+                    Hide my Statuses From a Friend </a>
+                <div v-if="showHideform">
+                    <form class="friendSubForm" @submit.prevent="hideFromUser">
+                    <p>
+                    <label for="hideId">Enter the ID of the friend you want to hide statuses from. (Don't worry, they won't know)</label>
+                    <input id="hideId" v-model="hideId" placeholder="user ID">
+                    </p>
+                    <p>
+                    <input type="submit" value="Hide Statuses">  
+                    </p>  
+                </form>
+
+
+                <form class="friendSubForm" @submit.prevent="unhideFromUser">
+                    <p>
+                    <label for="unhideId">No longer want to hide your statuses from someone? Just enter their ID below.</label>
+                    <input id="unhideId" v-model="unhideId" placeholder="user ID">
+                    </p>
+                    <p>
+                    <input type="submit" value="UnHide Statuses">  
+                    </p>  
+                </form>
+                
+                <a @click.prevent="hideHideForm" class="btn btn-primary">Close Hide Statuses Form</a>
+                </div>
+
+
+                <a v-if="!showGoAwayform" @click.prevent="revealGoAwayForm" class="btn btn-primary">
+                    Stop Showing me Status From a Specific Friend</a>
+                
+                <div v-if="showGoAwayform">
+                    <form class="friendSubForm" @submit.prevent="goAwayUser">
+                    <p>
+                    <label for="goAwayId">Enter the ID of the friend whose statuses you no longer want to see. (Don't worry, they won't know)</label>
+                    <input id="goAwayId" v-model="goAwayId" placeholder="user ID">
+                    </p>
+                    <p>
+                    <input type="submit" value="Hide Their Statuses">  
+                    </p>  
+                </form>
+
+
+                <form class="friendSubForm" @submit.prevent="unGoAwayUser">
+                    <p>
+                    <label for="unGoAwayId">No longer want to stop seeing someone's statuses? Just enter their ID below.</label>
+                    <input id="unGoAwayId" v-model="unGoAwayId" placeholder="user ID">
+                    </p>
+                    <p>
+                    <input type="submit" value="UnHide Their Statuses">  
+                    </p>  
+                </form>
+                <a @click.prevent="hideGoAwayForm" class="btn btn-primary">Close Hide Another User's Statuses Form</a>
+                </div>
+                
+                <!-- add a thing to go to notifications-->
+            </div>
+        </div>
+
     </div>
 </div>
 </template>
- 
- <style lang="scss">
- 
- </style>
- 
- <script>
- import * as api from '@/services/api_access';
- export default {
-     data(){
-         return {
-             state: {
-                 users: []
-             }
-         }
-     },
-     created(){
-         api.GetUsers()
-         .then(x=> this.state = x)
-     },
-     methods: {
-         
-     }
- }
- </script>
- 
+
+<style lang="scss">
+
+</style>
+
+<script>
+import * as api from '@/services/api_access';
+// eslint-disable-next-line
+let loopTimer = null;
+
+export default {
+    data(){
+        return {
+            users: [],
+            onProfile: false,
+            friends: [],
+            viewing: null,
+            myStatus: null,
+            friendfeed: [],
+            searchName: null,
+            friendId: null,
+            showAddFriend: false,
+            potentialFriends: [],
+            seeingResults: false,
+            potentialFriend: null,
+            onPotentialProfile: false,
+            showHideForm: false,
+            showGoAwayForm: false,
+            hideId: null,
+            unhideId: null,
+            goAwayId: null,
+            unGoAwayId: null
+        }
+    },
+    created(){
+        this.getMyStatus();
+        api.FriendFeed()
+        .then((x)=> this.friendfeed = x)
+        api.GetFriends()
+        .then((x)=> this.friends = x)
+        loopTimer = setInterval(this.refresh, 1000);
+    },
+    methods: {
+        showProfile(i){
+            api.User(i)
+            .then(x=> this.viewing = x)
+            .then(()=> this.onProfile = true)
+        },
+        showProfilePotential(i){
+            api.User(i)
+            .then(x=> this.potentialFriend = x)
+            .then(()=> this.onPotentialProfile)
+        },
+        backToFriends(){
+            this.viewing = null;
+            this.onProfile = false;
+        },
+        getMyStatus(){
+            api.GetStatus()
+            .then(x=> this.myStatus = x)
+        },
+        onSubmitStatus(){
+            api.SetStatus(this.newStatus)
+            .then(x=> this.myStatus = x)
+        },
+        unFriend(){
+            api.Unfriend(viewing.id)
+            .then(()=>this.backToFriends)
+        },
+        revealAddFriend(){
+            this.showAddFriend = true;
+        },
+        hideAddFriend(){
+            this.showAddFriend = false;
+        },
+        revealHideForm(){
+            this.showHideForm = true;
+        },
+        hideHideForm(){
+            this.showHideForm = false
+        },
+        revealGoAwayForm(){
+            this.showGoAwayForm = true;
+        },
+        hideGoAwayForm(){
+            this.showGoAwayForm = false;
+        },
+        lookUpUsers(){
+            api.UserNames(this.searchName)
+            .then((x)=> this.potentialFriends = x)
+            .then(()=> this.searchName = null)
+            .then(()=> this. seeingResults = true)
+        },
+        sawResults(){
+            this.seeingResults = false;
+            this.potentialFriends = [];
+        },
+        hideFromUser(){
+            api.HideFromFriend(this.hideId)
+            .then(()=> this.hideId = null)
+            .then(()=> this.showHideForm = false)
+        },
+        unhideFromUser(){
+            api.UnhideFromFriend(this.unhideId)
+            .then(()=> this.unhideId = null)
+            .then(()=> this.showHideForm = false)
+        },
+        goAwayUser(){
+            api.DontSeeFriend(this.goAwayId)
+            .then(()=> this.goAwayId = null)
+            .then(()=> showGoAwayForm = false)
+        },
+        unGoAwayUser(){
+            api.UndontSeeFriend(this.unGoAwayId)
+            .then(()=> this.unGoAwayId = null)
+            .then(()=> showGoAwayForm = false)
+        },
+        refresh(){
+            this.getMyStatus()
+            api.FriendFeed()
+            .then((x)=> this.friendfeed = x)
+            api.GetFriends()
+            .then((x)=> this.friends = x)
+            api.GetUsers()
+            .then(x=> this.users = x)
+            .then(()=> this.userReady = api.userReady)
+            .then(()=> this.userId = api.userId)
+        }
+    },
+    computed: {
+        
+    },
+    components: {
+        
+    }
+}
+</script>

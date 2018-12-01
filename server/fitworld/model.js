@@ -510,6 +510,16 @@ class User{
         return this.friends;
     }
 
+    //Checks if user is a friend
+    isFriend(id){
+        for(let i= 0; i<this.friends.length;i++){
+            if(this.friends[i].id == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     //Sets status
     setStatus(newStatus){
         this.status= {status: this.name +" says: "+newStatus, date: new Date()};

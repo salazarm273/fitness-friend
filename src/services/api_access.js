@@ -9,13 +9,6 @@ export function GetUsers(){
             })
 }
 
-export function GetFriends(){
-    return myFetch(api_root + `/seeFriends`, {userId: userId})
-           .then(function(response) {
-                 return response;
-            })
-}
-
 export function Loginfb(name, fbid, access_token){
     console.log("here 1")
     return myFetch(api_root + `/addUser`, { name, fbid, access_token })
@@ -370,6 +363,105 @@ export function GetNews(){
 
 export function GetArticleInfo(i){
     return myFetch(api_root + `/getNewsInfo`, {index: i})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function SendFriendRequest(u){
+    return myFetch(api_root + `/addFriends`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetFriendRequests(u){
+    return myFetch(api_root + `/friendRequests`, {userId: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function ApproveFriendRequest(u){
+    return myFetch(api_root + `/approveFriend`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function RejectFriendRequest(u){
+    return myFetch(api_root + `/rejectFriend`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function HideFromFriend(u){
+    return myFetch(api_root + `/hideFromFriend`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function UnhideFromFriend(u){
+    return myFetch(api_root + `/unhideFromFriend`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+
+export function DontSeeFriend(u){
+    return myFetch(api_root + `/dontSeeFriend`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function UndontSeeFriend(u){
+    return myFetch(api_root + `/undontSeeFriend`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function Unfriend(u){
+    return myFetch(api_root + `/unfriend`, {user1: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetFriends(){
+    return myFetch(api_root + `/seeFriends`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function AreFriends(u){
+    return myFetch(api_root + `/areFriends`, {userId: userId, user2: u})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function FriendFeed(){
+    return myFetch(api_root + `/friendFeed`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function SetStatus(s){
+    return myFetch(api_root + `/newStatus`, {userId: userId, status: s})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetStatus(){
+    return myFetch(api_root + `/myStatus`, {userId: userId})
            .then(function(response) {
                  return response;
             })
