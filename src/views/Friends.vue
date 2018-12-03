@@ -13,11 +13,11 @@
                     </li>
                 </ul> 
             </div>
-             <div v-if="onProfile" class="card">
+             <div v-if="onProfile && viewing !== null" class="card">
                 <h5 class="card-header">{{viewing.name}}</h5>
                 <p>id: {{viewing.id}} age: {{viewing.age}}</p>
                 <p>bio: {{viewing.bio}}</p>
-                <p v-if="viewing.status != ''">status: {{viewing.status}}</p>
+                <p v-if="viewing.status.status != 'none'">status: {{viewing.status.status}}, {{viewing.status.date}}</p>
                 <a @click.prevent="unFriend" class="btn btn-danger">Unfriend User</a>
                 <br>
                 <a @click.prevent="backToFriends" class="btn btn-primary">Back to Friends List</a>
@@ -37,7 +37,7 @@
                     </p>
             </form>
             <br>
-            <p v-if="myStatus != ''">My Status: {{myStatus.status}} , {{myStatus.date}}</p>
+            <p v-if="myStatus.status != 'none'">My Status: {{myStatus.status}} , {{myStatus.date}}</p>
             <br>
 
             <ul class="list-group list-group-flush">
@@ -91,9 +91,9 @@
                 </div>
 
 
-                <a v-if="!showHideform" @click.prevent="revealHideForm" class="btn btn-primary">
+                <a v-if="!showHideForm" @click.prevent="revealHideForm" class="btn btn-primary">
                     Hide my Statuses From a Friend </a>
-                <div v-if="showHideform">
+                <div v-if="showHideForm">
                     <form class="friendSubForm" @submit.prevent="hideFromUser">
                     <p>
                     <label for="hideId">Enter the ID of the friend you want to hide statuses from. (Don't worry, they won't know)</label>
@@ -119,10 +119,10 @@
                 </div>
 
 
-                <a v-if="!showGoAwayform" @click.prevent="revealGoAwayForm" class="btn btn-primary">
+                <a v-if="!showGoAwayForm" @click.prevent="revealGoAwayForm" class="btn btn-primary">
                     Stop Showing me Status From a Specific Friend</a>
                 
-                <div v-if="showGoAwayform">
+                <div v-if="showGoAwayForm">
                     <form class="friendSubForm" @submit.prevent="goAwayUser">
                     <p>
                     <label for="goAwayId">Enter the ID of the friend whose statuses you no longer want to see. (Don't worry, they won't know)</label>
@@ -170,7 +170,8 @@ export default {
             onProfile: false,
             friends: [],
             viewing: null,
-            myStatus: null,
+            myStatus: {},
+            newStatus: null,
             friendfeed: [],
             searchName: null,
             friendId: null,
@@ -219,7 +220,7 @@ export default {
             .then(x=> this.myStatus = x)
         },
         unFriend(){
-            api.Unfriend(viewing.id)
+            api.Unfriend(this.viewing.id)
             .then(()=>this.backToFriends)
         },
         revealAddFriend(){
@@ -263,12 +264,12 @@ export default {
         goAwayUser(){
             api.DontSeeFriend(this.goAwayId)
             .then(()=> this.goAwayId = null)
-            .then(()=> showGoAwayForm = false)
+            .then(()=> this.showGoAwayForm = false)
         },
         unGoAwayUser(){
             api.UndontSeeFriend(this.unGoAwayId)
             .then(()=> this.unGoAwayId = null)
-            .then(()=> showGoAwayForm = false)
+            .then(()=> this.showGoAwayForm = false)
         },
         refresh(){
             this.getMyStatus()
@@ -276,6 +277,7 @@ export default {
             .then((x)=> this.friendfeed = x)
             api.GetFriends()
             .then((x)=> this.friends = x)
+            
             api.GetUsers()
             .then(x=> this.users = x)
             .then(()=> this.userReady = api.userReady)

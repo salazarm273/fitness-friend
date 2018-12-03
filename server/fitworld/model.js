@@ -151,7 +151,7 @@ class fitWorld{
             }
 
             //don't include status if friend hasn't set any status yet
-            if(friend.status == ""){
+            if(friend.status.status == "none"){
                 hidden=true;
             }
 
@@ -265,7 +265,7 @@ class User{
         this.friendRequests = [];
         this.friendsDontSee = [];
         this.friendsDontShow = [];
-        this.status= "";
+        this.status= {status: "none", date: "none"};
         this.challengesWon = [];
     }
 
