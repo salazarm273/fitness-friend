@@ -25,9 +25,13 @@
                 <h5 class="card-header">
                     Challenge Notifications
                 </h5>
-                
-
-
+                <ul class="list-group list-group-flush">
+                    <li v-for="(n,index) in challengeNotes" :key="n.message"
+                    class="list-group-item">
+                    <h5>{{n.message}}</h5>
+                    <a @click.prevent="sawMessage(index)" class="btn btn-success">Okay!</a>
+                    </li>
+                </ul> 
             </div>
         </div>
 
@@ -49,13 +53,16 @@ let loopTimer = null;
 export default {
     data(){
         return {
-            friendRequests: []           
+            friendRequests: [],
+            challengeNotes: []           
 
         }
     },
     created(){
         api.GetFriendRequests()
         .then(x=> this.friendRequests = x)
+        api.GetChallengeNotifications()
+        .then(x=> this.challengeNotes = x)
         loopTimer = setInterval(this.refresh, 1000);
     },
     methods: {
@@ -65,9 +72,14 @@ export default {
         rejectFriend(i){
             api.RejectFriendRequest(i)
         },
+        sawMessage(i){
+            api.DeleteChallengeNotification(i)
+        },
         refresh(){
             api.GetFriendRequests()
             .then(x=> this.friendRequests = x)
+            api.GetChallengeNotifications()
+            .then(x=> this.challengeNotes = x)
             api.GetUsers()
             .then(x=> this.users = x)
             .then(()=> this.userReady = api.userReady)

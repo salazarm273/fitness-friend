@@ -84,7 +84,7 @@
       </p>
 
       <p>
-        <label for="review">Date (MM-DD-YYYY)</label>      
+        <label for="date">Date (MM-DD-YYYY)</label>      
         <input id="date" v-model="date">
       </p>
 

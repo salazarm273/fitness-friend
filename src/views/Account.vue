@@ -13,7 +13,7 @@
     <p>Age: {{myInfo.age}}</p>
     <p>Weight units: {{myInfo.wUnits}}</p>
     <p>Height units: {{myInfo.hUnits}}</p>
-    <p>Challenges won: <span v-if="myInfo.challengesWon.length == 0">none</span></p> 
+    <p>Challenges won: <span v-if="myInfo.challengesWon == []">none</span></p> 
     <ul v-if="myInfo.challengesWon != []" class="list-group list-group-flush">
         <li v-for="c in myInfo.challengesWon" :key="c.contest" class="list-group-item">
         <h5>{{c.contest}}</h5>

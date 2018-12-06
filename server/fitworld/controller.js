@@ -351,7 +351,7 @@ app.post("/addChallenge", (req, res) => {
 });
 
 //shows all challenges
-app.post("/challenges", (req, res) => {
+app.get("/challenges", (req, res) => {
     res.send(fitworld.challenges);
 });
 
@@ -365,6 +365,16 @@ app.post("/challengeJoin", (req, res) => {
     res.send(fitworld.joinChallenge(req.body.userId, req.body.chalId));
 });
 
+//gets a user's challenge notifications
+app.post("/challengeNews", (req, res) => {
+    res.send(fitworld.users[req.body.userId].getChallengeNews());
+});
+
+//deletes a challenge notification
+app.post("/challengeNewsDelete", (req, res) => {
+    res.send(fitworld.users[req.body.userId].deleteChallengeNews(req.body.index));
+});
+
 //returns all news articles
 app.get("/getNews", (req, res) =>{
     res.send(fitworld.getNews());
@@ -373,6 +383,11 @@ app.get("/getNews", (req, res) =>{
 //returns info on a specific news articles
 app.post("/getNewsInfo", (req, res) =>{
     res.send(fitworld.getNewsInfo(req.body.index));
+});
+
+//returns the current date
+app.get("/getToday", (req, res) =>{
+    res.send(new Date());
 });
 
 module.exports = app;

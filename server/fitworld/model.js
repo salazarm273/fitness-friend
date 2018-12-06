@@ -175,14 +175,17 @@ class fitWorld{
             if(this.won(player,contest))
             {
                 player.challengesWon.push({contest: contest.title});
-                contest.winners.push(player)
+                player.challengeNotifications.push({message: "You won the "+contest.title+ " challenge! Great job!"});
+                contest.winners.push(player);
             }else{
                 if(contest.end < new Date()){
+                    player.challengeNotifications.push({message: "You lost the "+contest.title+ " challenge, but I'm sure you'll do better on your next challenge!"});
                     contest.contestants.splice(i,1);
                     i--;
                 }
             }
-        }   
+        }
+        contest.setChecked(true);
         return contest.winners;
     }
 
@@ -206,7 +209,16 @@ class fitWorld{
     joinChallenge(userId, chalId){
         let contest = this.challenges[chalId];
         let contestant = {name: this.users[userId].name, id: userId};
-        contest.contestants.push(contestant);
+        let alreadyAdded = false;
+        for(let i =0;i<contest.contestants.length;i++){
+            if(contest.contestants[i].id == userId){
+                alreadyAdded = true;
+            }
+        }
+        if(!alreadyAdded){
+            contest.contestants.push(contestant);
+            this.users[userId].challengeNotifications.push({message: "You joined the "+contest.tittle+ " challenge! Good luck!"})
+        }
         return contest.contestants;
     }
 
@@ -267,6 +279,7 @@ class User{
         this.friendsDontShow = [];
         this.status= {status: "none", date: "none"};
         this.challengesWon = [];
+        this.challengeNotifications = [];
     }
 
     addUserInfo(bio, weight, wUnits, height, hUnits, gender, age, goalCalories, goalWeight){
@@ -939,6 +952,16 @@ class User{
             remaining: calRemaining};
     }
 
+    //gets a user's challenge notifications
+    getChallengeNews(){
+        return this.challengeNotifications;
+    }
+
+    //deletes a challenge notification
+    deleteChallengeNews(index){
+        return this.challengeNotifications.splice(index,1);
+    }
+
     //sorts elements by date
     dateSort(array){
         for(var i=0;i<array.length-1;i++){
@@ -969,6 +992,12 @@ class Challenge{
         this.winners = [];
         this.activity = activity;
         this.frequency = frequency;
+        this.checked = false;
+    }
+
+    //sets whether this challenge has been checked for winners
+    setChecked(c){
+        this.checked = c;
     }
 
 }

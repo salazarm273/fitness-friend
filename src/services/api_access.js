@@ -474,9 +474,55 @@ export function GetStatus(){
             })
 }
 
+export function GetChallenges(){
+    return myFetch(api_root + `/challenges`)
+           .then(function(response) {
+                 return response;
+            })
+}
 
+export function JoinChallenge(c){
+    return myFetch(api_root + `/challengeJoin`, {userId: userId, chalId: c})
+           .then(function(response) {
+                 return response;
+            })
+}
 
+export function CreateChallenge(n, d, s, e, a, f){
+    return myFetch(api_root + `/addChallenge`, {name: n, descrip: d, start: s, end: e,
+         activity: a, frequency: f})
+           .then(function(response) {
+                 return response;
+            })
+}
 
+export function CheckWinners(c){
+    return myFetch(api_root + `/challengeDone`, {id: c})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetChallengeNotifications(){
+    return myFetch(api_root + `/challengeNews`, {userId: userId})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function DeleteChallengeNotification(i){
+    return myFetch(api_root + `/challengeNewsDelete`, {userId: userId, index: i})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function GetToday(){
+    return myFetch(api_root + `/getToday`)
+           .then(function(response) {
+                 return response;
+            })
+}
 
 function myFetch(url = ``, data = null) {
     let options = {
