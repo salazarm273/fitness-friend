@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="accounttext">
     <div v-if="!editing">
     <h1 class="accountHeader"> Hello, {{myInfo.name}}!</h1>
     <h1 class="accountHeader"> Welcome to Your Account!</h1>
@@ -13,7 +13,7 @@
     <p>Age: {{myInfo.age}}</p>
     <p>Weight units: {{myInfo.wUnits}}</p>
     <p>Height units: {{myInfo.hUnits}}</p>
-    <p>Challenges won: <span v-if="myInfo.challengesWon == []">none</span></p> 
+    <p>Challenges won: <span v-if="myInfo.challengesWon = []">none</span></p> 
     <ul v-if="myInfo.challengesWon != []" class="list-group list-group-flush">
         <li v-for="c in myInfo.challengesWon" :key="c.contest" class="list-group-item">
         <h5>{{c.contest}}</h5>
@@ -24,50 +24,51 @@
     
     <div v-if="editing">
     <h1 class="accountHeader"> Hello, {{myInfo.name}}!</h1>
-    <h1 class="accountHeader"> Your Account!</h1>
+    <h1 class="accountHeader"> Edit Account</h1>
     <br>
     <a @click.prevent="noEdit" class="btn btn-primary">Cancel</a>
     <br>
     <br>
     <form class="AccountForm" @submit.prevent="onSubmitEdit">
         <p>
-        <label for="bio">Bio:</label>
-        <input id="bio" v-model="newBio" placeholder="Write a brief message to tell everyone about yourself">
+        <label for="bio">Bio: &nbsp; </label>
+        <textarea id="bio" v-model="newBio" placeholder="Introduce yourself" required>
+        </textarea>
       </p>
 
      <p> 
     <input type="radio" id="lbs" value="pounds" v-model="newWUnits">
-    <label for="lbs">Pounds</label>
+    <label for="lbs"> &nbsp; Pounds</label>
     <br>
     <input type="radio" id="kg" value="kilograms" v-model="newWUnits">
-    <label for="kg">Kilograms</label>
+    <label for="kg"> &nbsp; Kilograms</label>
     <br>
     </p>
 
      <p> 
     <input type="radio" id="ft" value="feet" v-model="newHUnits">
-    <label for="ft">Feet</label>
+    <label for="ft"> &nbsp; Feet</label>
     <br>
     <input type="radio" id="m" value="meters" v-model="newHUnits">
-    <label for="m">Meters</label>
+    <label for="m"> &nbsp; Meters</label>
     <br>
     </p>
      
      <p> 
     <input type="radio" id="female" value="female" v-model="newGender">
-    <label for="female">Female</label>
+    <label for="female"> &nbsp; Female</label>
     <br>
     <input type="radio" id="male" value="male" v-model="newGender">
-    <label for="male">Male</label>
+    <label for="male"> &nbsp; Male</label>
     <br>
     <input type="radio" id="non" value="na" v-model="newGender">
-    <label for="non">Don't factor gender into anything</label>
+    <label for="non"> &nbsp; Don't factor gender into anything</label>
     <br>
     </p>
 
       <p>
-    <label for="age">Age:</label>
-	<input v-model.number="newAge" id="age" name="age">
+    <label for="age">Age: &nbsp; </label>
+	<input v-model.number="newAge" id="age" name="age" required>
     </p>
 
         <p>
@@ -82,7 +83,9 @@
 </template>
 
 <style lang="scss">
-
+.accounttext{
+    text-align: center;
+}
 </style>
 
 <script>
