@@ -375,8 +375,8 @@ export function SendFriendRequest(u){
             })
 }
 
-export function GetFriendRequests(u){
-    return myFetch(api_root + `/friendRequests`, {userId: userId, user2: u})
+export function GetFriendRequests(){
+    return myFetch(api_root + `/friendRequests`, {userId: userId})
            .then(function(response) {
                  return response;
             })
@@ -466,6 +466,10 @@ export function GetStatus(){
                  return response;
             })
 }
+
+
+
+
 
 function myFetch(url = ``, data = null) {
     let options = {

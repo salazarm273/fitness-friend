@@ -54,7 +54,7 @@
                 <h5 class="card-header">Options</h5>
                 <a v-if="!showAddFriend" @click.prevent="revealAddFriend" class="btn btn-primary">Add a Friend</a>
                 <div v-if="showAddFriend">
-                <form v-if="!seeingResults" class="friendSubForm" @submit.prevent="lookupUsers">
+                <form v-if="!seeingResults" class="friendSubForm" @submit.prevent="lookUpUsers">
                     <p>
                     <label for="searchName">Look up User by Name </label>
                     <input id="searchName" v-model="searchName" placeholder="username">
@@ -67,10 +67,10 @@
                     <ul class="list-group list-group-flush">
                     <li v-for="p in potentialFriends" :key="p.id"
                     class="list-group-item">
-                    <h5>{{p.name}}</h5>
-                    <p>id: {{p.id}} age: {{p.age}}</p>
-                    <p>bio: {{p.bio}}</p>
-                    <a @click.prevent="addFriendName(p.id)" class="btn btn-primary">Send Friend Request</a>
+                    <h5 v-if="p.id != userId">{{p.name}}</h5>
+                    <p v-if="p.id != userId">id: {{p.id}} age: {{p.age}}</p>
+                    <p v-if="p.id != userId">bio: {{p.bio}}</p>
+                    <a v-if="p.id != userId" @click.prevent="addFriendName(p.id)" class="btn btn-primary">Send Friend Request</a>
                     <br>
                     </li>
                     <a @click.prevent="sawResults" class="btn btn-primary">Search a Different Name</a>
@@ -246,6 +246,15 @@ export default {
             .then((x)=> this.potentialFriends = x)
             .then(()=> this.searchName = null)
             .then(()=> this. seeingResults = true)
+        },
+        friendById(){
+            api.SendFriendRequest(this.friendId)
+            .then(()=> this.friendId = null)
+            .then(()=> this.showAddFriend = false)
+        },
+        addFriendName(i){
+            api.SendFriendRequest(i)
+            .then(()=> this.showAddFriend = false)
         },
         sawResults(){
             this.seeingResults = false;
