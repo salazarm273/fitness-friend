@@ -3,7 +3,7 @@
     <div class="row">
        <div class="col-md-12">
             <div class="card">
-              <h5 class="card-header abouthead">About</h5>
+              <h3 class="card-header abouthead">About</h3>
               <br>
               <p>If you want a guiding hand in staying mindful about fitness and living the
                 life you want, you've come to the right place! Fitness Friend is here to be your friend,

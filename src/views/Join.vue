@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="col-md-6 col">
+    <div class="col-md-12 col">
     <div v-if="userId === null && userReady == false" class="card">
     <h3 class="card-header"> Welcome!</h3>
     <br>
@@ -105,6 +105,7 @@
 <script>
  import * as api from '@/services/api_access';
  import * as fb from '@/services/facebook';
+ // eslint-disable-next-line
  let loopTimer = null;
  export default {
      data(){
