@@ -38,7 +38,14 @@ export function AddUser(n, p, e, b, w, wu, h, hu, g, a, gc, gw){
 export function User(id){
     return myFetch(api_root + `/user`, {userId: id})
            .then(function(response) {
-                 return response.json();
+                 return response;
+            })
+}
+
+export function SeeMe(){
+    return myFetch(api_root + `/user`, {userId: userId})
+           .then(function(response) {
+                 return response;
             })
 }
 

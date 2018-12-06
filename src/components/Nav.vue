@@ -35,6 +35,9 @@
       <li v-if="userReady" class="nav-item">
         <router-link class="nav-link" exact-active-class="active" to="/notifications">Notifications</router-link>
       </li>
+      <li v-if="userReady" class="nav-item">
+        <router-link class="nav-link" exact-active-class="active" to="/account">Account</router-link>
+      </li>
     </ul>
 </nav>
 

@@ -62,6 +62,11 @@ export default new Router({
       component: () => import('./views/Weight.vue')
     },
     {
+      path: '/account',
+      name: 'account',
+      component: () => import('./views/Account.vue')
+    },
+    {
       path: '/notifications',
       name: 'notifications',
       component: () => import('./views/Notifications.vue')

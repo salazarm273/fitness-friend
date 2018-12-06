@@ -12,6 +12,7 @@
                     <h5>{{f.name}}</h5>
                     </li>
                 </ul> 
+                <p>Remember to check your notifications for more friend requests</p>
             </div>
              <div v-if="onProfile && viewing !== null" class="card">
                 <h5 class="card-header">{{viewing.name}}</h5>
@@ -146,7 +147,6 @@
                 <a @click.prevent="hideGoAwayForm" class="btn btn-primary">Close Hide Another User's Statuses Form</a>
                 </div>
                 
-                <!-- add a thing to go to notifications-->
             </div>
         </div>
 
