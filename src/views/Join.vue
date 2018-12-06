@@ -7,10 +7,6 @@
     <a @click.prevent="loginfb" class="btn btn-lg btn-primary">
         Continue with Facebook
     </a>
-    <br>
-    <a  class="btn btn-lg btn-primary">
-        Continue with Google
-    </a>
     </div>
     <div v-if="userId !== null && userReady == false" class="card">
         <h3 class="card-header">
@@ -18,62 +14,63 @@
         </h3>
         <form class="add-user-info" @submit.prevent="onSubmit">
       <p>
-        <label for="bio">Bio:</label>
-        <input id="bio" v-model="bio" placeholder="Write a brief message to tell everyone about yourself">
+        <label for="bio">&nbsp; Bio: &nbsp;</label>
+        <textarea id="bio" v-model="bio" placeholder="Introduce yourself"
+         required></textarea>
       </p>
       
     <p>
-    <label for="weight">Weight:</label>
-	<input v-model.number="weight" id="weight" name="weight">
+    <label for="weight">&nbsp; Weight: &nbsp;</label>
+	<input v-model.number="weight" id="weight" name="weight" >
     </p>
 
-     <p> 
-    <input type="radio" id="lbs" value="pounds" v-model="wUnits">
-    <label for="lbs">Pounds</label>
+     <p>
+    &nbsp; <input type="radio" id="lbs" value="pounds" v-model="wUnits" required>
+    <label for="lbs">&nbsp; Pounds</label>
     <br>
-    <input type="radio" id="kg" value="kilograms" v-model="wUnits">
-    <label for="kg">Kilograms</label>
+    &nbsp; <input type="radio" id="kg" value="kilograms" v-model="wUnits">
+    <label for="kg">&nbsp; Kilograms</label>
     <br>
     </p>
 
     <p>
-    <label for="height">Height:</label>
-	<input v-model="height" id="height" name="height">
+    <label for="height">&nbsp; Height: &nbsp;</label>
+	<input v-model="height" id="height" name="height" required>
     </p>
 
-     <p> 
-    <input type="radio" id="ft" value="feet" v-model="hUnits">
-    <label for="ft">Feet</label>
+    <p>
+    &nbsp; <input type="radio" id="ft" value="feet" v-model="hUnits">
+    <label for="ft">&nbsp; Feet</label>
     <br>
-    <input type="radio" id="m" value="meters" v-model="hUnits">
-    <label for="m">Meters</label>
+    &nbsp; <input type="radio" id="m" value="meters" v-model="hUnits">
+    <label for="m">&nbsp; Meters</label>
     <br>
     </p>
      
-     <p> 
-    <input type="radio" id="female" value="female" v-model="gender">
-    <label for="female">Female</label>
+    <p>
+    &nbsp; <input type="radio" id="female" value="female" v-model="gender">
+    <label for="female">&nbsp; Female</label>
     <br>
-    <input type="radio" id="male" value="male" v-model="gender">
-    <label for="male">Male</label>
+    &nbsp; <input type="radio" id="male" value="male" v-model="gender">
+    <label for="male">&nbsp; Male</label>
     <br>
-    <input type="radio" id="non" value="na" v-model="gender">
-    <label for="non">Don't factor gender into anything</label>
+    &nbsp; <input type="radio" id="non" value="na" v-model="gender">
+    <label for="non">&nbsp; Don't factor gender into anything</label>
     <br>
     </p>
 
-      <p>
-    <label for="age">Age:</label>
+    <p>
+    <label for="age">&nbsp; Age: &nbsp;</label>
 	<input v-model.number="age" id="age" name="age">
     </p>
 
     <p>
-    <label for="gCal">What's your personal goal amount of calories consumed per day? (Feel free to leave this section blank)</label>
+    <label for="gCal">&nbsp; What's your personal goal amount of calories consumed per day? (Feel free to leave this section blank) &nbsp;</label>
 	<input v-model.number="gCals" id="weight" name="weight">
     </p>
 
     <p>
-    <label for="gWeight">What's your goal weight? (If you don't have one, leave this section blank)</label>
+    <label for="gWeight">&nbsp; What's your goal weight? (If you don't have one, leave this section blank) &nbsp;</label>
 	<input  v-model.number="gWeight" id="gWeight" name="gWeight">
     </p>
           

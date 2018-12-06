@@ -6,7 +6,7 @@
                 <ul class="list-group list-group-flush">
                     <li v-for="(n,index) in newsDisplay" :key="index"
                         class="list-group-item">
-                        <h4 @click.prevent="pickArticle(index)">{{n.title}}</h4>
+                        <h4 class="titles" @click.prevent="pickArticle(index)">{{n.title}}</h4>
                         <br>
                         <br>
                         <h6>{{ n.description }}</h6>
@@ -18,7 +18,9 @@
 
         </div>
         <div v-else class="col-md-12">
-            <img :src=articlePic alt="title picture">
+            <br>
+            <img :src=articleInfo.pic alt="title picture">
+            <br>
             <br>
             <h3> {{articleInfo.title}}</h3>
             <h6> by {{articleInfo.author}}</h6>
@@ -51,6 +53,9 @@
         h5 {
             flex-grow: 1;
         }
+    }
+    .titles{
+        cursor: pointer;
     }
 </style>
 

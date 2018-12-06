@@ -19,6 +19,7 @@
         <h5>{{c.contest}}</h5>
         </li>
     </ul>
+    <br>
     </div>
     
     <div v-if="editing">
@@ -128,7 +129,7 @@
             .then(()=> this.newAge = null)
             .then(()=> this.editing = false)
          },
-          refresh(){
+         refresh(){
              api.SeeMe()
              .then(x=> this.myInfo = x)
              api.GetUsers()
