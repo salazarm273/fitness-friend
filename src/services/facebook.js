@@ -31,9 +31,9 @@ import * as api from './api_access'
        )
    }
    function statusChangeCallback(response){
-    console.log(response);
+    //console.log(response);
     FB.api("/me?fields=name,email,birthday,picture", me => {
-     console.log(me);
+    // console.log(me);
      api.Loginfb(me.name, response.authResponse.userID, response.authResponse.accessToken)
 
     })

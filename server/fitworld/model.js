@@ -554,7 +554,9 @@ class User{
 
     //Sets status
     setStatus(newStatus){
-        this.status= {status: this.name +" says: "+newStatus, date: new Date()};
+        let d = new Date();
+        this.status= {status: this.name +" says: "+newStatus, date: d, 
+        month: d.getMonth() + 1, day: d.getDate(), year: d.getFullYear()};
         return this.status;
     }
 

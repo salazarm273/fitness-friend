@@ -1,5 +1,5 @@
 module.exports =[
-    {title: "The Best Super Foods for a Super You", pic: "http://localhost:8080/img/superfood.a966ecae.jpg",
+    {title: "The Best Super Foods for a Super You", pic: "https://image.shutterstock.com/image-photo/superfoods-arrangement-featuring-seeds-legumes-260nw-797719054.jpg",
     description: "A quick guide to understanding super foods and how they can help in your life.",
     author: "Michelle Salazar", story: ["What is a superfood? You probably heard that term before, but might not know what it means. Basically, it is a nutrient rich food with health benefits. So now that you know what a super food is, which ones are the best and why?",
     "Kale is a highly popular super food, which is high in vitamin A, C, and K. It also tastes great in smoothies, and can be cooked in a variety of ways! Other leafy greens like spinach and swiss chard also offer similar health benefits.",
@@ -8,7 +8,7 @@ module.exports =[
     "These food items were just the tip of the iceberg when it comes to superfood, but hopefully you now have more of an idea of what a superfood is. There is no universal technical definition though, so be wary when you hear advertisers claim their food as a superfood, and always actually look at the nutrition information on your food and compare it to other foods."
     ]},
    
-    {title: "Tips for an Awesome Gym Workout", pic: "http://localhost:8080/img/abWorkout.e7efe3f2.jpeg", 
+    {title: "Tips for an Awesome Gym Workout", pic: "https://images.unsplash.com/photo-1533727937480-da3a97967e95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80", 
     description: "Beginner advice on how to get the most out of your gym workout.",
     author: "Maggie Smith", story: [
     "Everyone has different experiences with gyms. Every person and every gym are different, so there aren't any magical tips for a great visit, but here are my suggestions for the best gym experiences.",
@@ -17,7 +17,7 @@ module.exports =[
     "Remember to have fun. You're more inclined to work out more often if you actually enjoy it. So take time to find the gym and workouts that work best for you."
     ]},
 
-    {title: "Why Workout?", pic: "http://localhost:8080/img/motivation.b33b599b.jpeg", 
+    {title: "Why Workout?", pic: "https://images.unsplash.com/photo-1513593771513-7b58b6c4af38?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80", 
     description: "Every now and then, we all need motivation to remind us why we work out in the first place.",
     author: "Michelle Salazar", story: [
     "Oh no! You discovered staying healthy is not always super fun, and part of you wants to go back to binging Netflix and cheese fries all day long while you just lie on our couch and never workout again. Okay, maybe it's not that extreme. Either way, we all have days where we want to stray from our goals and skip out on what we said we were going to do. While taking a break every now and then is completely normal, here are some things to think about when you want to give up all together.",

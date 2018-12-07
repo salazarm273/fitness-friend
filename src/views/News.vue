@@ -2,7 +2,8 @@
 <div>
     <div class="row">
         <div v-if="!chosen" class="col-md-12">
-            <h3>News Articles</h3>
+            <h3 class ="tittle">News Articles</h3>
+            <br>
                 <ul class="list-group list-group-flush">
                     <li v-for="(n,index) in newsDisplay" :key="index"
                         class="list-group-item">
@@ -56,6 +57,10 @@
     }
     .titles{
         cursor: pointer;
+    }
+    .tittle{
+        margin-top: 15px;
+        text-align: center;
     }
 </style>
 

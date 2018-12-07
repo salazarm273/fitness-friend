@@ -25,6 +25,15 @@ app.post("/addUser", (req, res) => {
     res.send(user);
 });
 
+//adds user uisng info
+app.post("/addUserOldWay", (req, res) => {
+    const user = new User(req.body.name, fitworld.users.length, null, true, req.body.pass, req.body.email, req.body.bio, req.body.weight,
+        req.body.wUnits, req.body.height, req.body.hUnits, req.body.gender, req.body.age, req.body.goalCalories, req.body.goalWeight);
+    fitworld.users.push(user);
+    //const user = fitworld.loginfb(req.body.name, req.body.fbid, req.body.access_token)
+    res.send(user);
+});
+
 //adds relevant user info to profile
 app.post("/addUserInfo", (req, res) => {
     fitworld.users[req.body.userId].addUserInfo(req.body.bio, req.body.weight,

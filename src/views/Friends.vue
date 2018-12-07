@@ -8,17 +8,19 @@
                 </h5>
                 <ul class="list-group list-group-flush">
                     <li @click.prevent="showProfile(f.id)" v-for="f in friends" :key="f.id"
-                    class="list-group-item">
+                    class="list-group-item canClick">
                     <h5>{{f.name}}</h5>
                     </li>
                 </ul> 
-                <p>Remember to check your notifications for more friend requests</p>
+                <p class="note">Remember to check your notifications for friend requests</p>
             </div>
              <div v-if="onProfile && viewing !== null" class="card">
                 <h5 class="card-header">{{viewing.name}}</h5>
-                <p>id: {{viewing.id}} age: {{viewing.age}}</p>
+                <div class="profile">
+                <p>id: {{viewing.id}} age: {{viewing.age}} </p>
                 <p>bio: {{viewing.bio}}</p>
-                <p v-if="viewing.status.status != 'none'">status: {{viewing.status.status}}, {{viewing.status.date}}</p>
+                <p v-if="viewing.status.status != 'none'">status: {{viewing.status.status}}, {{viewing.status.month}}/{{viewing.status.day}}/{{viewing.status.year}}</p>
+                </div>
                 <a @click.prevent="unFriend" class="btn btn-danger">Unfriend User</a>
                 <br>
                 <a @click.prevent="backToFriends" class="btn btn-primary">Back to Friends List</a>
@@ -37,14 +39,12 @@
                         <input type="submit" value="Set New Status">  
                     </p>
             </form>
-            <br>
-            <p v-if="myStatus.status != 'none'">My Status: {{myStatus.status}} , {{myStatus.date}}</p>
-            <br>
+            <p v-if="myStatus.status != 'none'" class="statusMine"><strong>My Status:</strong> {{myStatus.status}}, {{myStatus.month}}/{{myStatus.day}}/{{myStatus.year}}</p>
 
             <ul class="list-group list-group-flush">
                 <li v-for="s in friendfeed" :key="s.status"
                     class="list-group-item">
-                    <h5>{{s.status}}, {{s.date}} </h5>
+                    <h5>{{s.status}}, {{s.month}}/{{s.day}}/{{s.year}} </h5>
                 </li>
             </ul>
             </div>
@@ -53,7 +53,7 @@
         <div class="col-md-4">
             <div class="card">
                 <h5 class="card-header">Options</h5>
-                <a v-if="!showAddFriend" @click.prevent="revealAddFriend" class="btn btn-primary">Add a Friend</a>
+                <a v-if="!showAddFriend" @click.prevent="revealAddFriend" class="btn btn-primary">Find New Friend</a>
                 <div v-if="showAddFriend">
                 <form v-if="!seeingResults" class="friendSubForm" @submit.prevent="lookUpUsers">
                     <p>
@@ -69,7 +69,7 @@
                     <li v-for="p in potentialFriends" :key="p.id"
                     class="list-group-item">
                     <h5 v-if="p.id != userId">{{p.name}}</h5>
-                    <p v-if="p.id != userId">id: {{p.id}} age: {{p.age}}</p>
+                    <p v-if="p.id != userId">id: {{p.id}} age: {{p.age}} &nbsp;</p>
                     <p v-if="p.id != userId">bio: {{p.bio}}</p>
                     <a v-if="p.id != userId" @click.prevent="addFriendName(p.id)" class="btn btn-primary">Send Friend Request</a>
                     <br>
@@ -77,8 +77,6 @@
                     <a @click.prevent="sawResults" class="btn btn-primary">Search a Different Name</a>
                 </ul> 
                 </div>
-
-                <p>or</p>
                 <form class="friendSubForm" @submit.prevent="friendById">
                     <p>
                     <label for="friendId">Already know their id?</label>
@@ -93,7 +91,7 @@
 
 
                 <a v-if="!showHideForm" @click.prevent="revealHideForm" class="btn btn-primary">
-                    Hide my Statuses From a Friend </a>
+                    Hide My Statuses</a>
                 <div v-if="showHideForm">
                     <form class="friendSubForm" @submit.prevent="hideFromUser">
                     <p>
@@ -121,7 +119,7 @@
 
 
                 <a v-if="!showGoAwayForm" @click.prevent="revealGoAwayForm" class="btn btn-primary">
-                    Stop Showing me Status From a Specific Friend</a>
+                    Hide X's Status</a>
                 
                 <div v-if="showGoAwayForm">
                     <form class="friendSubForm" @submit.prevent="goAwayUser">
@@ -144,7 +142,7 @@
                     <input type="submit" value="UnHide Their Statuses">  
                     </p>  
                 </form>
-                <a @click.prevent="hideGoAwayForm" class="btn btn-primary">Close Hide Another User's Statuses Form</a>
+                <a @click.prevent="hideGoAwayForm" class="btn btn-primary">Close Hide X's Statuses Form</a>
                 </div>
                 
             </div>
@@ -155,7 +153,53 @@
 </template>
 
 <style lang="scss">
-
+    .btn-primary{
+        margin-top: 10px;
+    }
+    li.list-group-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        img {
+            width: 30px; height: 30px;
+            margin-right: 5px;
+        }
+        h5 {
+            flex-grow: 1;
+        }
+    }
+    .friendSubForm{
+        margin-top: 5px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border: 1px solid black;
+    }
+    .StatusForm{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .note{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .profile{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .statusMine{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-size: 125%;
+    }
+    .canClick{
+        cursor: pointer;
+    }
 </style>
 
 <script>
@@ -221,7 +265,7 @@ export default {
         },
         unFriend(){
             api.Unfriend(this.viewing.id)
-            .then(()=>this.backToFriends)
+            .then(()=>this.backToFriends())
         },
         revealAddFriend(){
             this.showAddFriend = true;
@@ -245,7 +289,7 @@ export default {
             api.UserNames(this.searchName)
             .then((x)=> this.potentialFriends = x)
             .then(()=> this.searchName = null)
-            .then(()=> this. seeingResults = true)
+            .then(()=> this.seeingResults = true)
         },
         friendById(){
             api.SendFriendRequest(this.friendId)
@@ -255,6 +299,7 @@ export default {
         addFriendName(i){
             api.SendFriendRequest(i)
             .then(()=> this.showAddFriend = false)
+            .then(()=> this.seeingResults = false)
         },
         sawResults(){
             this.seeingResults = false;

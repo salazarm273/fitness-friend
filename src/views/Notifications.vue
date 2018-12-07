@@ -9,12 +9,14 @@
                 <ul class="list-group list-group-flush">
                     <li v-for="f in friendRequests" :key="f.id"
                     class="list-group-item">
-                    <h5>{{f.name}}</h5>
-                    <p>id: {{f.id}}</p>
-                <p>bio: {{f.bio}}</p>
-                <a @click.prevent="approveFriend(f.id)" class="btn btn-success">Approve Friend Request</a>
+                    <p class="friendName">{{f.name}} &nbsp;</p>
+                    <p>id: {{f.id}}  &nbsp;</p>
+                <p>bio: {{f.bio}}  &nbsp;</p>
+                <div class="answer">
+                <a @click.prevent="approveFriend(f.id)" class="btn btn-success">Approve</a>
                 <br>
-                <a @click.prevent="rejectFriend(f.id)" class="btn btn-danger">Reject Friend Request</a>
+                <a @click.prevent="rejectFriend(f.id)" class="btn btn-danger">Reject</a>
+                </div>
                     </li>
                 </ul> 
             </div>
@@ -42,7 +44,28 @@
 </template>
 
 <style lang="scss">
-
+    li.list-group-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        img {
+            width: 30px; height: 30px;
+            margin-right: 5px;
+        }
+        h5 {
+            flex-grow: 1;
+        }
+    }
+    .answer{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .friendName{
+        font-weight: bold;
+        font-size: 125%;
+    }
 </style>
 
 <script>

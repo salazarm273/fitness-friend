@@ -10,14 +10,11 @@ export function GetUsers(){
 }
 
 export function Loginfb(name, fbid, access_token){
-    console.log("here 1")
     return myFetch(api_root + `/addUser`, { name, fbid, access_token })
     .then(x=> {
          userId = x.id
        
-    }
-        );
-    //.then(() => console.log("userid is now "+userId));
+    });
 }
 
 export function AddUserInfo(b, w, wu, h, hu, g, a, gc, gw){
@@ -545,9 +542,6 @@ function myFetch(url = ``, data = null) {
           body: JSON.stringify(data), // body data type must match "Content-Type" header
         };
     }
-    //console.log("url is "+url);
-    //console.log("options is "+JSON.stringify(options));
-    //console.log("data is "+ JSON.stringify(data));
     return fetch(url, options)
     .then(response =>{
       return response.json()
