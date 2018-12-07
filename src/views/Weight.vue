@@ -9,7 +9,7 @@
                     <ul class="list-group list-group-flush">
                         <li v-for="w in weightsDisplay.weights" :key="w.date"
                             class="list-group-item">
-                            <h5>{{w.weight}} {{wUnits}}  {{w.date}}</h5>
+                            <h5>{{w.month}}/{{w.day}}/{{w.year}}   {{w.weight}} {{wUnits}}</h5>
                         </li>
                         <li class="list-group-item">Net Weight Change: {{weightsDisplay.progress}} {{wUnits}}</li>
                     </ul>
@@ -26,7 +26,7 @@
                         <input id="date2" v-model="date2" placeholder="MM-DD-YYYY">
                     </p>
                 <p>
-                    <input type="submit" value="Show Weights Logged Between These Dates">  
+                    <input type="submit" value="Show Weights Between These Dates">  
                 </p>
                 </form>
 
@@ -36,7 +36,7 @@
                         <input id="w" v-model="w2" placeholder="High Weight">
                     </p>
                     <p>
-                        <input type="submit" value="Show Weights Logged Between These Weights">  
+                        <input type="submit" value="Show Weights Between These Weights">  
                     </p>
                 </form>
 
@@ -47,15 +47,16 @@
         <div class="col-md-4">
             <div v-if="hasGoal" class="card">
                     <h5 class="card-header">Goal Weight</h5>
-                    <p id="target">{{gWeight}}</p>
-                    <p v-if="weightLeft.suceeded"> Congratulations! You've met your goal weight!</p>
-                    <p v-if="!weightLeft.suceeded"> Only {{weightLeft.left}} more to go!</p>
+                    <p class="target">{{gWeight}}</p>
+                    <p v-if="weightLeft.suceeded" class="belowtarget congrats"> Congratulations! You've met your goal weight!</p>
+                    <p v-if="!weightLeft.suceeded" class="belowtarget"> Only {{weightLeft.left}} more to go!</p>
             </div>
             <div v-else class="card">
-                <p>You have no goal weight set, and that's okay!</p>
+                <h5 class="card-header">You have no goal weight set, and that's okay!</h5>
                 <img src="../../weightCat.jpg">
             </div>
-            <form class="weightsSubForm" @submit.prevent="onSubmitNewGoal">
+            <br>
+            <form class="weights-Form" @submit.prevent="onSubmitNewGoal">
                     <p>
                         <input v-model="newGoal" placeholder="New Goal Weight">
                     </p>
@@ -70,21 +71,21 @@
         <div class="col-md-4">
             <div class="card">
                 <h5 class="card-header">Log New Weight</h5>
-                <p>
+                <p class="note">
                     Note: It's not good to focus too much on the past, 
                     so you can't log a weight with an earlier date than what you've already logged.
                     Just focus on the future: I believe in you!
                 </p>
 
-                <form class="activity-form" @submit.prevent="onSubmitWeight">
+                <form class="weight-form" @submit.prevent="onSubmitWeight">
                     
                     <p>
-                    <label for="weight">Weight</label>
+                    <label for="weight">Weight &nbsp; </label>
                     <input id="weight" v-model="weight">
                     </p>
                     
                     <p>
-                    <label for="date">Date</label>
+                    <label for="date">Date &nbsp; </label>
                     <input id="date" v-model="date" placeholder="MM-DD-YYYY">
                     </p>
                     
@@ -100,7 +101,34 @@
 </template>
 
 <style lang="scss">
-
+.btn-primary{
+        margin-top: 10px;
+}
+.weightsSubForm{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid black;
+}
+.weight-form{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+}
+.note{
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.target{
+    text-align: center;
+    font-weight: bold;
+    font-size: 250%;
+}
+.belowtarget{
+    text-align: center;
+    font-size: 150%;
+}
 </style>
 
 <script>

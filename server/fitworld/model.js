@@ -309,7 +309,8 @@ class User{
         if(weight<=0){
             this.weightLog = [];
         }else{
-            this.weightLog = [{weight: weight, date: new Date()}];
+            let d = new Date();
+            this.weightLog = [{weight: weight, date: new Date(), month: d.getMonth() +1, day: d.getDate(), year: d.getFullYear()}];
         }
         return this;
     }
@@ -573,7 +574,8 @@ class User{
             if(date < this.weightLog[this.weightLog.length - 1].date) { throw new Error(
             "Users cannot submit older weights than the latest on record. Focus on the future.")};
         }
-        this.weightLog.push({weight: newWeight, date: date});
+        this.weightLog.push({weight: newWeight, date: date,
+            month: date.getMonth() + 1, day: date.getDate(), year: date.getFullYear()});
         
         //if a user already has a negative weight, it's because they didn't enter one when registering
         if(this.weight() <= 0){
