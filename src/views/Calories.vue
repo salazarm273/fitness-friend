@@ -8,7 +8,7 @@
                     </h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <h5>Eaten: {{calReport.eaten}} Burned: {{calReport.burned}} <span v-if="calReport.goal > 0"> Goal: {{calReport.goal}}</span></h5>
+                            <h5>Eaten: {{calReport.eaten}} &nbsp; Burned: {{calReport.burned}} <span v-if="calReport.goal > 0">&nbsp; Goal: {{calReport.goal}}</span></h5>
                         </li>
                         <div v-if="calReport.goal > 0">
                         <li v-if="calReport.remaining > 0" class="list-group-item">Cumulatively, you're {{calReport.remaining}} calories under your goal. Remember to eat healthily and get plenty of nutrients.</li>
@@ -33,6 +33,7 @@
                 <form v-if="showMore" class="reportSubForm" @submit.prevent="onSubmitDates">
                     <p>
                         <input id="date1" v-model="date1" placeholder="MM-DD-YYYY">
+                        &nbsp;
                         <input id="date2" v-model="date2" placeholder="MM-DD-YYYY">
                     </p>
                 <p>
@@ -44,18 +45,19 @@
         </div>
 
         <div class="col-md-6">
-            <div v-if="calToday.goal > 0" class="card">
+            <div v-if="calToday.goal > 0" class="card info">
                     <h5 class="card-header">Today, you have</h5>
-                    <p id="target">{{calToday.remaining}}</p>
-                    <p>calories remaining out of your</p>
-                    <p id="target">{{calToday.goal}}</p>
-                    <p>calories goal</p>
+                    <p class="target">{{calToday.remaining}}</p>
+                    <p class="belowTarget">calories remaining out of your</p>
+                    <p class="target">{{calToday.goal}}</p>
+                    <p class="belowTarget">calories goal</p>
             </div>
             <div v-else class="card">
-                <p>You have no goal calories set, and that's okay!</p>
+                <h5 class="card-header">You have no goal calories set, and that's okay!</h5>
                 <img src="../../panadaPullUp.jpg">
             </div>
-            <form class="reportSubForm" @submit.prevent="onSubmitNewGoal">
+            <br>
+            <form class="report-Form" @submit.prevent="onSubmitNewGoal">
                     <p>
                         <input v-model="newGoal" placeholder="Daily Calories Goal">
                     </p>
@@ -74,6 +76,23 @@
 </template>
 
 <style lang="scss">
+.btn-primary{
+        margin-top: 10px;
+    }
+.target{
+    font-weight: bold;
+    font-size: 250%;
+}
+.info{
+    text-align: center;
+    font-size: 150%;
+}
+.reportSubForm{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid black;
+}
 
 </style>
 
