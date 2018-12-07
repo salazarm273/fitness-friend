@@ -330,21 +330,25 @@ class User{
     //adds activity to log and sets status
     //opt1: gets activity by index in activities array
     logActivity(activity, duration, date, set){
+        let da=new Date(date);
         if(this.weight() >= 180){
             this.activitiesLog.push({ name: activities[activity].name, 
-                calories: activities[activity].cal180 * duration * 2, duration: duration, date: new Date(date)});
+                calories: activities[activity].cal180 * duration * 2, duration: duration, date: new Date(date), 
+                month: da.getMonth() + 1, day: da.getDate(), year: da.getFullYear()});
         }else{
             if(this.weight() >= 155 || this.weight() <= 0){
                 this.activitiesLog.push({ name: activities[activity].name, 
-                    calories: activities[activity].cal155 * duration * 2, duration: duration, date: new Date(date)});
+                    calories: activities[activity].cal155 * duration * 2, duration: duration, date: new Date(date), 
+                    month: da.getMonth()  + 1, day: da.getDate(), year: da.getFullYear()});
             }else{
                 this.activitiesLog.push({ name: activities[activity].name, 
-                    calories: activities[activity].cal125 * duration * 2, duration: duration, date: new Date(date)});
+                    calories: activities[activity].cal125 * duration * 2, duration: duration, date: new Date(date), 
+                    month: da.getMonth() + 1, day: da.getDate(), year: da.getFullYear()});
             }
         }
         if(set){
             this.status= {status: this.name +" just accomplished "+ activities[activity].name +" for "
-            + duration + " hours!", date: new Date(date)};
+            + duration + " hours!", date: new Date(date), month: da.getMonth() + 1, day: da.getDate(), year: da.getFullYear()};
         }
         return this.activitiesLog[this.activitiesLog.length - 1];
     }
@@ -352,6 +356,7 @@ class User{
     //opt2: gets activity by name in activities array
     logActivityName(activity, duration, date, set){
         let index= -1;
+        let da = new Date(date);
         for(var i=0; i< activities.length; i++){
             if(activities[i].name==activity){
                 index=i;
@@ -361,19 +366,22 @@ class User{
         if(index< 0) { throw new Error("No activity found with such name")}
         if(this.weight >= 180){
             this.activitiesLog.push({ name: activities[index].name, 
-                calories: activities[index].cal180 * duration * 2, duration: duration, date: new Date(date)});
+                calories: activities[index].cal180 * duration * 2, duration: duration, date: new Date(date), 
+                month: da.getMonth() + 1, day: da.getDate(), year: da.getFullYear()});
         }else{
             if(this.weight >= 155 || this.weight <= 0){
                 this.activitiesLog.push({ name: activities[index].name, 
-                    calories: activities[index].cal155 * duration * 2, duration: duration, date: new Date(date)});
+                    calories: activities[index].cal155 * duration * 2, duration: duration, 
+                    date: new Date(date), month: da.getMonth() + 1, day: da.getDate(), year: da.getFullYear()});
             }else{
                 this.activitiesLog.push({ name: activities[index].name, 
-                    calories: activities[index].cal125 * duration * 2, duration: duration, date: new Date(date)});
+                    calories: activities[index].cal125 * duration * 2, duration: duration, 
+                    date: new Date(date), month: da.getMonth() + 1, day: da.getDate(), year: da.getFullYear()});
             }
         }
         if(set){
             this.status= {status: this.name + " just accomplished " + activities[index].name + " for " 
-            + duration + " hours!", date: new Date(date)};
+            + duration + " hours!", date: new Date(date), month: da.getMonth() + 1, day: da.getDate(), year: da.getFullYear()};
         }
         return this.activitiesLog[this.activitiesLog.length - 1];
     }
@@ -454,6 +462,16 @@ class User{
         return {activities: temp, caloriesBurned: calBurned};
     }
 
+    //Shows all activities
+    getActivitiesAll(){
+        let temp = [];
+        let calBurned = 0;
+        for(var i=0; i< this.activitiesLog.length; i++){
+            temp.push(this.activitiesLog[i]);
+            calBurned += this.activitiesLog[i].calories;
+        }
+        return {activities: temp, caloriesBurned: calBurned};
+    }
     //Shows specific actiivity info
     getActivity(index){
         return this.activitiesLog[index];

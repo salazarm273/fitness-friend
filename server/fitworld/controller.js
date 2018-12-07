@@ -110,7 +110,7 @@ app.post("/activitiesDuration", (req, res) => {
 
 //Shows all activities
 app.post("/allActivities", (req, res) => {
-    res.send(fitworld.users[req.body.userId].activitiesLog);
+    res.send(fitworld.users[req.body.userId].getActivitiesAll());
 });
 
 //Sends Friend Request

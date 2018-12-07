@@ -9,14 +9,10 @@
                     <ul class="list-group list-group-flush">
                         <li v-for="a in activitiesDisplay.activities" :key="a.name"
                             class="list-group-item">
-                            <h5>{{a.name}}</h5>
-                            <span class="badge badge-success">
-                                {{ a.duration }}        
+                            <h5>{{a.month}}/{{a.day}}/{{a.year}}  {{a.name}}</h5>
+                            <span>
+                                for {{a.duration}} hours, {{ a.calories }} calories burned       
                             </span>
-                             <span class="badge badge-success">
-                                {{ a.calories }} 
-                            </span> &nbsp;
-                            <span class="badge badge-primary badge-pill">{{a.date}}</span>
                         </li>
                         <li class="list-group-item">Total Calories Burned: {{activitiesDisplay.caloriesBurned}}</li>
                     </ul>
@@ -30,8 +26,9 @@
 
                 <form v-if="showMore" class="activitiesSubForm" @submit.prevent="onSubmitDateRange">
                     <p>
-                        <input id="date1" v-model="date1" placeholder="MM-DD-YYYY">
-                        <input id="date2" v-model="date2" placeholder="MM-DD-YYYY">
+                        <input id="date1" v-model="date1" placeholder="MM-DD-YYYY" required>
+                        &nbsp;
+                        <input id="date2" v-model="date2" placeholder="MM-DD-YYYY" required>
                     </p>
                 <p>
                     <input type="submit" value="Show Activities Between These Dates">  
@@ -42,6 +39,7 @@
                     <select id="activity" v-model="searchName">
                         <option v-for="a in activities" :key = "a.name" >{{ a.name }}</option>
                     </select>
+                <br>
                 <p>
                     <input type="submit" value="Show All Activities of This Type">  
                 </p>
@@ -68,24 +66,24 @@
         </div>
         <div class="col-md-6">
             <div class="card" >
-                <h5>Add an Activity</h5>
+                <h5 class="card-header">Add an Activity</h5>
                     <form class="activity-form" @submit.prevent="onSubmitActivity">
 
       <p>
-        <label for="activity">Activity</label>
+        <label for="activity">Activity &nbsp; </label>
         <select id="activity" v-model="activity">
           <option v-for="a in activities" :key = "a.name" >{{ a.name }}</option>
         </select>
       </p>
       
       <p>
-        <label for="duration">Duration (in hours)</label>
-        <input id="duration" v-model="duration" placeholder="use .5 for half hours">
+        <label for="duration">Duration (in hours) &nbsp; </label>
+        <input id="duration" v-model="duration" placeholder="use .5 for half hours" required>
       </p>
 
       <p>
-        <label for="date">Date (MM-DD-YYYY)</label>      
-        <input id="date" v-model="date">
+        <label for="date">Date &nbsp; </label>      
+        <input id="date" v-model="date" placeholder="MM-DD-YYYY" required>
       </p>
 
       <input type="checkbox" id="checkbox" v-model="set">
@@ -117,6 +115,20 @@
         h5 {
             flex-grow: 1;
         }
+    }
+    .activity-form{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .btn-primary{
+        margin-top: 10px;
+    }
+    .activitiesSubForm{
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border: 1px solid black;
     }
 </style>
 
