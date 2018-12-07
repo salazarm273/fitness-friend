@@ -9,12 +9,10 @@
                     <ul class="list-group list-group-flush">
                         <li v-for="f in FoodsDisplay.foods" :key="f.name"
                             class="list-group-item">
-                            <h5>{{f.name}}</h5>
-                            <span class="badge badge-success">
-                                {{ f.calories }}
+                            <h5>{{f.month}}/{{f.day}}/{{f.year}} {{f.name}}</h5>
+                            <span>
+                                {{ f.calories }} calories
                             </span> &nbsp;
-                            <span class="badge badge-primary badge-pill">{{f.date}}</span>
-                        </li>
                         <li class="list-group-item">Total Calories Eaten: {{FoodsDisplay.calories}}</li>
                     </ul>
                 <a @click.prevent="todayFoods" class="btn btn-primary">Show Today's Foods</a>
@@ -28,6 +26,7 @@
                 <form v-if="showMore" class="foodsSubForm" @submit.prevent="onSubmitDates">
                     <p>
                         <input id="date1" v-model="date1" placeholder="MM-DD-YYYY">
+                        &nbsp;
                         <input id="date2" v-model="date2" placeholder="MM-DD-YYYY">
                     </p>
                 <p>
@@ -38,6 +37,7 @@
                 <form v-if="showMore" class="foodsSubForm" @submit.prevent="onSubmitCalRange">
                     <p>
                         <input id="cals" v-model="cal1" placeholder="Low Calories">
+                        &nbsp;
                         <input id="cals" v-model="cal2" placeholder="High Calories">
                     </p>
                     <p>
@@ -50,31 +50,31 @@
         </div>
         <div class="col-md-6">
             <div class="card" >
-                <h5 v-if="!submit2">Add a Food Item</h5>
+                <h5 v-if="!submit2" class="card-header">Add a Food Item</h5>
             <form v-if="!submit2" class="food-form" @submit.prevent="onSubmitFood">
 
       <p>
-        <label for="name">Food</label>
+        <label for="name">Food &nbsp; </label>
         <input id="name" v-model="food" placeholder="Cheese Pizza">
       </p>
       
       <p>
-        <label for="servings">Servings Eaten</label>
+        <label for="servings">Servings Eaten &nbsp; </label>
         <input id="servings" v-model="servings" placeholder="1">
       </p>
 
       <p>
-        <label for="cal">Calories per Serving</label>
+        <label for="cal">Calories per Serving &nbsp; </label>
         <input id="cal" v-model="calServings" placeholder="300">
       </p>
 
       <p>
-        <label for="date">Date</label>      
+        <label for="date">Date &nbsp; </label>      
         <input id="date" v-model="date" placeholder="MM-DD-YYYY">
       </p>
 
       <input type="checkbox" id="checkbox" v-model="add">
-      <label for="checkbox">Add this to our database to make adding foods easy in the future</label>
+      <label for="checkbox"> &nbsp; Add this to our database to make adding foods easy in the future</label>
       
       <p>
         <input type="submit" value="Submit">  
@@ -84,24 +84,24 @@
     </form>
     <a v-if="!submit2" @click.prevent="showSubmitFrom" class="btn btn-primary">Add a Food From our Database</a>
     <a v-if="submit2" @click.prevent="showSubmitInput" class="btn btn-primary">Add a Food Not Using Database</a>
-    <h5 v-if="submit2">Add a Food Item From Database</h5>
+    <h5 v-if="submit2" class="card-header">Add a Food Item From Database</h5>
     
     <form v-if="submit2" class="food-form" @submit.prevent="onSubmitFoodFrom">
         
         <p>
-        <label for="foodname">Food</label>
+        <label for="foodname">Food &nbsp; </label>
         <select id="foodname" v-model="foodEaten">
           <option v-for="f in availableFoods" :key = "f.name" >{{ f.name }}</option>
         </select>
         </p>
         
         <p>
-        <label for="amount">Servings Eaten</label>
+        <label for="amount">Servings Eaten &nbsp; </label>
         <input id="amount" v-model="amount" placeholder="1">
         </p>
         
         <p>
-        <label for="dateEaten">Date</label>      
+        <label for="dateEaten">Date &nbsp; </label>      
         <input id="dateEaten" v-model="dateEaten" placeholder="MM-DD-YYYY">
         </p>
 
@@ -129,6 +129,20 @@
         h5 {
             flex-grow: 1;
         }
+    }
+    .btn-primary{
+        margin-top: 10px;
+    }
+    .food-form{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .foodsSubForm{
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border: 1px solid black;
     }
 </style>
 

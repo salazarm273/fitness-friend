@@ -731,7 +731,8 @@ class User{
         }else{
             date= new Date(date);
         }
-        let newFood = {name: name, calories: servings*caloriesPerServing, date: date};
+        let newFood = {name: name, calories: servings*caloriesPerServing, date: date,
+             month: date.getMonth() + 1, day: date.getDate(), year: date.getFullYear()};
         this.foodLog.push(newFood);
 
         //item will be added to the food array unless add is set to false
@@ -749,7 +750,8 @@ class User{
         }else{
             date= new Date(date);
         }
-        let newFood= {name: foods[index].name, calories: foods[index].calories * servings, date: date};
+        let newFood= {name: foods[index].name, calories: foods[index].calories * servings, date: date,
+            month: date.getMonth() + 1, day: date.getDate(), year: date.getFullYear()};
         this.foodLog.push(newFood);
         this.dateSort(this.foodLog);
         return newFood;
@@ -770,7 +772,8 @@ class User{
             }
         }
         if(index< 0) { throw new Error("No food found with such name")}
-        let newFood= {name: foods[index].name, calories: foods[index].calories * servings, date: date};
+        let newFood= {name: foods[index].name, calories: foods[index].calories * servings, date: date,
+            month: date.getMonth() + 1, day: date.getDate(), year: date.getFullYear()};
         this.foodLog.push(newFood);
         this.dateSort(this.foodLog);
         return newFood;
