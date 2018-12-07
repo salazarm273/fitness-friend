@@ -12,7 +12,7 @@
                     <h5>{{c.tittle}}</h5>
                     
                     <p> {{c.description}} </p>
-                    <p> Perform {{c.activity}} at least {{c.frequency}} times between {{c.start}} and {{c.end}}</p>
+                    <p> Perform {{c.activity}} at least {{c.frequency}} times between {{c.sMonth}}/{{c.sDay}}/{{c.sYear}} and {{c.eMonth}}/{{c.eDay}}/{{c.eYear}}</p>
                     <p> Contestants: <span v-if="c.contestants.length > 0">
                         <span v-for="p in c.contestants" :key="p.id">{{p.name}}<span v-if="p.id == userId"> (that's you!)</span>,  </span> 
                         and anyone else who joins in time!
@@ -21,6 +21,7 @@
                             None
                         </span>
                     </p>
+                    <br>
                     <a @click.prevent="joinChallenge(c.id)" class="btn btn-primary">Join</a>
                     </li>
                 </ul> 
@@ -37,7 +38,7 @@
                     v-if="c.end < today" class="list-group-item">
                     <h5>{{c.tittle}}</h5>
                     <p> {{c.description}}</p>
-                    <p> Perform {{c.activity}} at least {{c.frequency}} times between {{c.start}} and {{c.end}}</p>
+                    <p> Perform {{c.activity}} at least {{c.frequency}} times between {{c.sMonth}}/{{c.sDay}}/{{c.sYear}} and {{c.eMonth}}/{{c.eDay}}/{{c.eYear}}</p>
                     <p v-if="c.checked"> Winners: <span v-if="c.winners.length > 0">
                         <span v-for="w in c.winners" :key="w.id">{{w.name}}<span v-if="w.id = userId"> (that's you!)</span>, </span> 
                         great job everyone!
@@ -60,7 +61,7 @@
                     Create a Challenge
                 </h5>
                 
-                <form class="challengesForm" @submit.prevent="onSubmitChallenge">
+                <form class="challenge-Form" @submit.prevent="onSubmitChallenge">
                     <p>
                     <label for="name">Title</label>
                     <br>
@@ -121,6 +122,11 @@
         h5 {
             flex-grow: 1;
         }
+    }
+    .challenge-Form{
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 </style>
 
