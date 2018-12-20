@@ -399,4 +399,14 @@ app.get("/getToday", (req, res) =>{
     res.send(new Date());
 });
 
+//filters food results
+app.post("/filterfoodsearch", (req, res) => {
+    res.send(fitworld.users[req.body.userId].filterfood(req.body.search));
+});
+
+//adds a food to user's search history, to be available in next autofill
+app.post("/addfoodsearch", (req, res) => {
+    res.send(fitworld.users[req.body.userId].addsearchedfood(req.body.food));
+});
+
 module.exports = app;

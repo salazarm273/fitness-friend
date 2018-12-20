@@ -53,6 +53,20 @@ export function UserNames(n){
             })
 }
 
+export function FilterFoodSearch(s){
+    return myFetch(api_root + `/filterfoodsearch`, {userId: userId, search: s})
+           .then(function(response) {
+                 return response;
+            })
+}
+
+export function AddFoodSearch(s){
+    return myFetch(api_root + `/addfoodsearch`, {userId: userId, food: s})
+           .then(function(response) {
+                 return response;
+            })
+}
+
 
 export function GetAvailableActivities(){
     return myFetch(api_root + `/activityOpts`)

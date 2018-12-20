@@ -55,7 +55,20 @@
 
       <p>
         <label for="name">Food &nbsp; </label>
-        <input id="name" v-model="food" placeholder="Cheese Pizza">
+        <input type="text" id="name" v-model="food" placeholder="Cheese Pizza" @input="onChange" />
+        <ul
+        v-if="isOpen"
+        class="autocomplete-results"
+        >
+        <li
+        v-for="(result, i) in results"
+        :key="i"
+        @click="setResult(result)"
+        class="autocomplete-result"
+        >
+        {{ result }}
+        </li>
+        </ul>
       </p>
       
       <p>
@@ -144,6 +157,30 @@
         padding-right: 10px;
         border: 1px solid black;
     }
+    .autocomplete {
+    position: relative;
+    width: 130px;
+  }
+
+  .autocomplete-results {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #eeeeee;
+    height: 120px;
+    overflow: auto;
+  }
+
+  .autocomplete-result {
+    list-style: none;
+    text-align: left;
+    padding: 4px 2px;
+    cursor: pointer;
+  }
+
+  .autocomplete-result:hover {
+    background-color: #4AAE9B;
+    color: white;
+  }
 </style>
 
 <script>
@@ -173,7 +210,10 @@ export default {
             foodEaten: null,
             amount: null,
             dateEaten: null,
-            focus: null
+            focus: null,
+            userfoods: null,
+            results: [],
+            isOpen: false
         }
     },
     created(){
@@ -187,6 +227,10 @@ export default {
         getAvailableFoods(){
             api.GetAvailableFoods()
             .then(x=> this.availableFoods = x)
+        },
+        setResult(result) {
+        this.food = result;
+        this.isOpen = false;
         },
         todayFoods(){
             api.ShowFoodDay()
@@ -239,6 +283,7 @@ export default {
             .then(()=> this.refresh)
         },
         onSubmitFood() {
+            api.AddFoodSearch(this.food)
             api.LogFood(this.food, this.servings, this.calServings, this.date, this.add)
             .then(()=> this.food = null)
             .then(()=> this.servings = null)
@@ -265,6 +310,14 @@ export default {
             api.ShowFoodBetweenCal(this.cal1, this.cal2)
             .then(x=> this.FoodsDisplay = x)
             .then(()=> this.focus = "From " + this.cal1 + " to " + this.cal2 + " calories" )
+         },
+         onChange(){
+            this.isOpen = true;
+            this.filterResults();
+         },
+         filterResults(){
+             api.FilterFoodSearch(this.food)
+             .then(x=> this.results = x);       
          }
     },
     computed: {

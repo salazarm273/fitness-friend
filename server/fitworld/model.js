@@ -280,6 +280,7 @@ class User{
         this.status= {status: "none", date: "none"};
         this.challengesWon = [];
         this.challengeNotifications = [];
+        this.myFoodOpts = ["Cheese Pizza"];
     }
 
     addUserInfo(bio, weight, wUnits, height, hUnits, gender, age, goalCalories, goalWeight){
@@ -726,6 +727,30 @@ class User{
         }else{
             return{suceeded: false, left: 0 + " "+ this.wUnits};
         }
+    }
+
+    //returns the available options for the given search
+    filterfood(search){
+        let temp = [];
+        for(let i=0;i<this.myFoodOpts.length;i++){
+            let search2 = search.toLowerCase();
+            if(this.myFoodOpts[i].toLowerCase().includes(search2)){
+                temp.push(this.myFoodOpts[i]);
+            }
+        }
+        return temp;
+    }
+
+    //add food to user's personal search history
+    addsearchedfood(food){
+        for(let i=0;i<this.myFoodOpts.length;i++){
+            let food2 = food.toLowerCase();
+            if(this.myFoodOpts[i].toLowerCase() == (food2)){
+                return false;
+            }
+        }
+        this.myFoodOpts.push(food);
+        return this.myFoodOpts;
     }
 
     //logs a food that is not in the food array already
